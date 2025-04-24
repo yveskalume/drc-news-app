@@ -1,7 +1,10 @@
 import {Paragraph} from "tamagui";
+import PageView from "@/components/PageView";
 
 export default function Home() {
     return (
-        <Paragraph>Home</Paragraph>
+        <PageView>
+            <Paragraph>Home</Paragraph>
+        </PageView>
     )
 }

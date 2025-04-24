@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tabs} from "expo-router";
-import {AppTabBar} from "@/components/controls/app-tab-bar";
+import {AppTabBar} from "@/components/controls/AppTabBar";
 
 export default function TabLayout() {
   return (

@@ -22,14 +22,14 @@ const ActiveIndicator = styled(View, {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '$blue7',
+    backgroundColor: '$gray10',
     position: 'absolute',
     opacity: 0.2,
 });
 
 const TabBarButton = (props:  TabBarButtonProps) => {
     const { label, isActive, onPress, Icon } = props;
-    const iconColor = isActive ? '$blue10' : '$gray10';
+    const iconColor = isActive ? '$gray10' : '$gray10';
 
     return (
         <Pressable onPress={onPress} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 8 }}>

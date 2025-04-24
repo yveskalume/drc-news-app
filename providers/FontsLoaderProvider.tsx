@@ -15,8 +15,6 @@ import {
 } from "@expo-google-fonts/inter";
 import { SplashScreen } from "expo-router";
 
-SplashScreen.preventAutoHideAsync();
-
 export const FontsLoaderProvider = ({ children }: React.PropsWithChildren) => {
     const [fontsLoaded, fontError] = useFonts({
         Inter_100Thin,
@@ -28,8 +26,11 @@ export const FontsLoaderProvider = ({ children }: React.PropsWithChildren) => {
         Inter_700Bold,
         Inter_800ExtraBold,
         Inter_900Black,
-        unset: Inter_500Medium,
     });
+
+    useEffect(() => {
+        SplashScreen.preventAutoHideAsync();
+    }, []);
 
     useEffect(() => {
         if (fontsLoaded || fontError) {

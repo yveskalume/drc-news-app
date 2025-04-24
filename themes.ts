@@ -35,6 +35,7 @@ const builtThemes = createThemes({
                 ...Colors.green,
                 ...Colors.red,
                 ...Colors.yellow,
+                ...Colors.gray,
                 ...lightShadows,
                 shadowColor: lightShadows.shadow1,
             },
@@ -42,19 +43,18 @@ const builtThemes = createThemes({
                 ...Colors.greenDark,
                 ...Colors.redDark,
                 ...Colors.yellowDark,
+                ...Colors.grayDark,
                 ...darkShadows,
                 shadowColor: darkShadows.shadow1,
             },
         },
     },
-
     accent: {
         palette: {
             dark: ['hsla(250, 50%, 35%, 1)','hsla(246, 50%, 38%, 1)','hsla(242, 50%, 41%, 1)','hsla(238, 50%, 43%, 1)','hsla(234, 50%, 46%, 1)','hsla(229, 50%, 49%, 1)','hsla(225, 50%, 52%, 1)','hsla(221, 50%, 54%, 1)','hsla(217, 50%, 57%, 1)','hsla(213, 50%, 60%, 1)','hsla(250, 50%, 90%, 1)','hsla(250, 50%, 95%, 1)'],
             light: ['hsla(250, 50%, 40%, 1)','hsla(246, 50%, 43%, 1)','hsla(242, 50%, 46%, 1)','hsla(238, 50%, 48%, 1)','hsla(234, 50%, 51%, 1)','hsla(229, 50%, 54%, 1)','hsla(225, 50%, 57%, 1)','hsla(221, 50%, 59%, 1)','hsla(217, 50%, 62%, 1)','hsla(213, 50%, 65%, 1)','hsla(250, 50%, 95%, 1)','hsla(250, 50%, 95%, 1)'],
         },
     },
-
     childrenThemes: {
         warning: {
             palette: {
@@ -76,24 +76,7 @@ const builtThemes = createThemes({
                 light: Object.values(Colors.green),
             },
         },
-    },
-    grandChildrenThemes: {
-      alt1: {
-        template: 'alt1',
-      },
-      alt2: {
-        template: 'alt2',
-      },
-      surface1: {
-        template: 'surface1',
-      },
-      surface2: {
-        template: 'surface2',
-      },
-      surface3: {
-        template: 'surface3',
-      },
-    },
+    }
 })
 
 export type Themes = typeof builtThemes
