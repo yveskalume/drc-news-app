@@ -14,7 +14,7 @@ const BackgroundOverlay = () => (
 );
 
 const HeroImage = () => (
-    <View flex={0.55} justifyContent="center" alignItems="center">
+    <View flex={0.50} justifyContent="center" alignItems="center">
         <Image
             source={{ uri: 'https://images.pexels.com/photos/9567615/pexels-photo-9567615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }}
             backgroundSize="cover"
@@ -35,14 +35,14 @@ export default function Welcome() {
                 <HeroImage />
                 <View flex={0.4} alignItems="center" padding="$4">
                     <Image
-                        source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png' }} // Example logo URI
-                        width={60}
-                        height={60}
+                        source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Coat_of_arms_of_the_Democratic_Republic_of_the_Congo_%28with_background%29.svg/1026px-Coat_of_arms_of_the_Democratic_Republic_of_the_Congo_%28with_background%29.svg.png' }}
+                        width={80}
+                        height={80}
                         objectFit="contain"
-                        marginBottom="$4"
+                        marginBottom="$2"
                     />
                     <YStack width="100%" alignItems="center" justifyContent="center" padding="$4">
-                        <H3 fontSize="$4" fontWeight="bold">
+                        <H3 fontSize="$6" fontWeight="bold">
                             Welcome to CongoNews
                         </H3>
 
