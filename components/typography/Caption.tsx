@@ -4,7 +4,6 @@ import {Paragraph, ParagraphProps} from "tamagui";
 
 export default function Caption(props: React.PropsWithChildren<ParagraphProps>) {
     const {
-        marginTop = "$6",
         paddingHorizontal = "$4",
         children,
         ...rest
@@ -15,7 +14,6 @@ export default function Caption(props: React.PropsWithChildren<ParagraphProps>) 
             fontSize="$1"
             lineHeight="$1"
             color="$gray10"
-            marginTop={marginTop}
             paddingHorizontal={paddingHorizontal}
             {...rest}
         >

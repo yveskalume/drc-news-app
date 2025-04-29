@@ -1,38 +1,29 @@
-import {Button, H3, Image, View, YStack} from "tamagui";
+import {Button, H2, Paragraph, View, YStack} from "tamagui";
 import PageView from "@/components/PageView";
 import {useRouter} from "expo-router";
-import BackgroundOverlay from "@/components/surface/BackgroundOverlay";
 import Caption from "@/components/typography/Caption";
 import AppLogo from "@/components/surface/AppLogo";
-
-const HeroImage = () => (
-    <View flex={0.50} justifyContent="center" alignItems="center">
-        <Image
-            source={{uri: 'https://images.pexels.com/photos/9567615/pexels-photo-9567615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}}
-            backgroundSize="cover"
-            width="100%"
-            height="100%"
-            objectFit="cover"
-        />
-        <BackgroundOverlay/>
-    </View>
-);
 
 export default function Welcome() {
     const router = useRouter();
 
     return (
         <PageView paddingTop={0} paddingBottom={0} statusBarStyle="light">
-            <View flex={1} backgroundColor="$background">
-                <HeroImage/>
-                <View flex={0.4} alignItems="center" padding="$4">
-                    <AppLogo/>
-                    <YStack width="100%" alignItems="center" justifyContent="center" padding="$4">
-                        <H3 fontSize="$6" fontWeight="bold">
-                            Welcome to CongoNews
-                        </H3>
+            <View flex={1} backgroundColor="$background" padding="$4">
+                <YStack alignItems="center" justifyContent="center" flex={1} gap="$4">
+                    <AppLogo width={100} height={100}/>
+                    <YStack width="100%" gap="$6" paddingHorizontal="$4">
+                        <YStack gap="$3">
+                            <H2 fontWeight="bold" lineHeight="$8" textAlign="center">
+                                Bienvenue sur CongoNews
+                            </H2>
+                            <Paragraph textAlign="center" lineHeight="$1" marginTop="auto">
+                                La première plateforme d'actualités intelligente qui vous aide à rester informé
+                                sur l'actualité congolaise et internationale.
+                            </Paragraph>
+                        </YStack>
 
-                        <YStack gap="$2" width="100%" marginTop="$4">
+                        <YStack gap="$2">
                             <Button onPress={() => router.push("/(unauthed)/signin")} theme="accent" fontWeight="bold">
                                 Se connecter
                             </Button>
@@ -46,7 +37,7 @@ export default function Welcome() {
                             lu notre politique de confidentialité.
                         </Caption>
                     </YStack>
-                </View>
+                </YStack>
             </View>
         </PageView>
     );
