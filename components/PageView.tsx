@@ -30,6 +30,7 @@ export default function PageView(props: React.PropsWithChildren<PageViewProps>) 
                 paddingBottom={insets.bottom}
                 paddingTop={insets.top}
                 alignItems={Platform.OS === "web" ? "center" : undefined}
+                backgroundColor="$background"
                 {...rest}
             >
                 {children}
