@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "drc-news",
-    "slug": "drc-news",
+    "name": "CongoNews",
+    "slug": "congo-news",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bernard-ng.drc-news"
+      "bundleIdentifier": "com.bernard-ng.congo-news"
     },
     "android": {
       "adaptiveIcon": {
