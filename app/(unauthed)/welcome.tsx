@@ -24,10 +24,10 @@ export default function Welcome() {
                         </YStack>
 
                         <YStack gap="$2">
-                            <Button onPress={() => router.push("/(unauthed)/signin")} theme="accent" fontWeight="bold">
+                            <Button onPress={() => router.push("/signin")} theme="accent" fontWeight="bold">
                                 Se connecter
                             </Button>
-                            <Button onPress={() => router.push("/(unauthed)/signup")} theme="gray" fontWeight="bold">
+                            <Button onPress={() => router.push("/signup")} theme="gray" fontWeight="bold">
                                 Ouvrir un compte
                             </Button>
                         </YStack>

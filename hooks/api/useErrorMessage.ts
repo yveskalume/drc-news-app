@@ -1,7 +1,7 @@
 import {AxiosError} from "axios";
 import {ClientDetailErrorResponse, ClientErrorResponse} from "@/api/types";
 
-export const useErrorMessage = (error: AxiosError<ClientErrorResponse|ClientDetailErrorResponse>|Error|null) => {
+export const useErrorMessage = (error: AxiosError<ClientErrorResponse|ClientDetailErrorResponse>|Error): string => {
     if (error instanceof AxiosError && error.response) {
         const response = error.response.data;
 
@@ -10,8 +10,8 @@ export const useErrorMessage = (error: AxiosError<ClientErrorResponse|ClientDeta
         } else if ('detail' in response) {
             return response.detail
         }
-    } else {
-        console.log(error);
-        return "Désolé, une erreur est survenue."
     }
+
+    console.log(JSON.stringify(error));
+    return "Une erreur est survenue"
 }

@@ -4,68 +4,91 @@ import AppLogo from "@/components/AppLogo";
 import {useRouter} from "expo-router";
 import AppBackButton from "@/components/controls/AppBackButton";
 import Caption from "@/components/typography/Caption";
-import {useEffect, useState} from "react";
-import {setTokens} from "@/api/auth";
-import * as Burnt from "burnt"
+import {useMemo, useState} from "react";
+import * as Burnt from "burnt";
 import {useErrorMessage} from "@/hooks/api/useErrorMessage";
 import {useLogin} from "@/api/request";
 import {ActivityIndicator} from "react-native";
+import {useAuth} from "@/providers/AuthProvider";
+import {LoginResponse} from "@/api/types";
 
 export default function SignIn() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("")
-    const router = useRouter()
-    const {mutate: login, isPending, error} = useLogin();
-    const message = useErrorMessage(error)
-    const disabled = isPending || username.length === 0 || password.length === 0
+    const auth = useAuth();
+    const router = useRouter();
 
-    useEffect(() => {
-        if (error) {
-            Burnt.toast({
-                title: "Erreur de connexion",
-                message: message,
-                preset: "error"
-            })
-        }
-    }, [error, message])
-
-    const handleLogin = () => {
-        login({username, password}, {
-            onSuccess: async (data) => {
-                await setTokens(data.token, data.refreshToken)
-                router.push("/(authed)/(tabs)/home")
-            },
-            onError: (error) => {
-                console.log(error)
-            }
-        })
+    if (auth.isLoggedIn) {
+        router.replace("/(authed)/(tabs)/home")
     }
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const {mutate: loginRequest, isPending} = useLogin();
+
+    const isFormValid = useMemo(() => {
+        return email.trim().length > 0 && password.trim().length > 0;
+    }, [email, password]);
+
+    const handleSubmit = () => {
+        loginRequest({username: email, password}, {
+            onSuccess: async (data: LoginResponse) => {
+                auth.login(data.token, data.refresh_token);
+                Burnt.toast({title: "Connexion réussie", preset: "done"});
+            },
+            onError: error => {
+                Burnt.toast({
+                    title: "Erreur de connexion",
+                    message: useErrorMessage(error),
+                    preset: "error",
+                });
+            },
+        });
+    };
 
     return (
         <ScreenView>
             <View flex={1} backgroundColor="$background" padding="$4">
-                {router.canGoBack() && <AppBackButton onPress={() => router.back()}/>}
+                {router.canGoBack() && <AppBackButton onPress={router.back}/>}
+
                 <View flex={0.2} alignItems="center" justifyContent="center">
                     <AppLogo/>
                 </View>
+
                 <YStack flex={0.8} gap="$4" width="100%" justifyContent="flex-start">
                     <YStack marginBottom="$4">
                         <H3 fontWeight="bold" textAlign="center" marginBottom="$3">Se connecter</H3>
-                        <Paragraph textAlign="center" lineHeight="$1" marginTop="auto" paddingHorizontal="$4">
+                        <Paragraph textAlign="center" lineHeight="$1" paddingHorizontal="$4">
                             Bienvenue sur CongoNews, la plateforme d'actualités intelligente
                         </Paragraph>
                     </YStack>
 
-                    <Input onChangeText={setUsername} keyboardType="email-address" size="$large"
-                           placeholder="Addresse e-mail"/>
-                    <Input onChangeText={setPassword} keyboardType="visible-password" size="$large"
-                           placeholder="Mot de passe"/>
+                    <Input
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        size="$large"
+                        placeholder="Adresse e-mail"
+                    />
+                    <Input
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        size="$large"
+                        placeholder="Mot de passe"
+                    />
 
-                    <Button disabled={disabled} onPress={handleLogin} theme={disabled ? "disabled" : "accent"}
-                            fontWeight="bold">
+                    <Button
+                        disabled={!isFormValid || isPending}
+                        onPress={handleSubmit}
+                        theme={!isFormValid || isPending ? "disabled" : "accent"}
+                        fontWeight="bold"
+                    >
                         {isPending ? <ActivityIndicator/> : "Se connecter"}
                     </Button>
-                    <Button onPress={() => router.push("/(unauthed)/password-request")} chromeless>
+
+                    <Button onPress={() => router.push("/password-request")} chromeless>
                         Mot de passe oublié ?
                     </Button>
                 </YStack>
@@ -76,5 +99,5 @@ export default function SignIn() {
                 </Caption>
             </View>
         </ScreenView>
-    )
+    );
 }

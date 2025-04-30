@@ -15,7 +15,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "package": "com.bernard-ng.congo-news"
       }
     },
     "web": {
@@ -38,6 +39,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "57281e7a-46e3-4aac-8715-5165fa0bf560"
+      }
+    },
+    "owner": "bernard-ng"
   }
 }

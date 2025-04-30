@@ -20,7 +20,7 @@ export default function NotFoundScreen() {
                           </Paragraph>
                       </YStack>
 
-                      <Link href="/">
+                      <Link href="/(unauthed)/welcome">
                           <Paragraph>Recommencer</Paragraph>
                       </Link>
                   </YStack>

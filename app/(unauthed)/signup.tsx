@@ -27,7 +27,7 @@ export default function SingUp() {
                     <Input size="$large" placeholder="Addresse e-mail"/>
                     <Input size="$large" placeholder="Mot de passe"/>
 
-                    <Button onPress={() => router.navigate("/(unauthed)/welcome")} theme="accent" fontWeight="bold">
+                    <Button onPress={() => router.replace("/signin")} theme="accent" fontWeight="bold">
                         Ouvrir un compte
                     </Button>
                 </YStack>

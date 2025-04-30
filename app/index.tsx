@@ -1,8 +1,10 @@
 import {Redirect} from "expo-router";
-import {useLoggedIn} from "@/api/auth";
+import {useAuth} from "@/providers/AuthProvider";
 
 export default function Index() {
-    return useLoggedIn() ?
+    const auth = useAuth();
+
+    return auth.isLoggedIn ?
         <Redirect href="/(authed)/(tabs)/home"/> :
         <Redirect href="/(unauthed)/welcome"/>;
 }

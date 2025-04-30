@@ -79,7 +79,6 @@ export const AppTabBar = () => {
             borderTopColor="$gray4"
             paddingBottom="$4"
             paddingTop="$2"
-            height={60}
         >
             {tabs.map((tab, index) => (
                 <TabBarButton

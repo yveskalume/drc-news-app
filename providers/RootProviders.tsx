@@ -5,6 +5,7 @@ import {SafeAreaProvider} from "react-native-safe-area-context";
 import {FontsLoaderProvider} from "@/providers/FontsLoaderProvider";
 import {TanstackQueryProvider} from "@/providers/TanstackQueryProvider";
 import {TamaguiConfigProvider} from "@/providers/TamaguiConfigProvider";
+import {AuthProvider} from "@/providers/AuthProvider";
 
 export const RootProviders = ({children}: React.PropsWithChildren) => (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -12,7 +13,9 @@ export const RootProviders = ({children}: React.PropsWithChildren) => (
             <SafeAreaProvider>
                 <FontsLoaderProvider>
                     <TamaguiConfigProvider>
-                        {children}
+                        <AuthProvider>
+                            {children}
+                        </AuthProvider>
                     </TamaguiConfigProvider>
                 </FontsLoaderProvider>
             </SafeAreaProvider>
