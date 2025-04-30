@@ -5,14 +5,14 @@ import {YStack} from "tamagui";
 import {Platform} from "react-native";
 import {StatusBar} from "expo-status-bar";
 
-type PageViewProps = React.ComponentProps<typeof YStack> & {
+type ScreenViewProps = React.ComponentProps<typeof YStack> & {
     showStatusBar?: boolean;
     statusBarStyle?: "auto" | "inverted" | "light" | "dark";
     statusBarBackgroundColor?: string;
     children: React.ReactNode;
 };
 
-export default function PageView(props: React.PropsWithChildren<PageViewProps>) {
+export default function ScreenView(props: React.PropsWithChildren<ScreenViewProps>) {
     const {
         showStatusBar = true,
         statusBarStyle = "auto",

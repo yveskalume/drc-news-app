@@ -1,7 +1,7 @@
 import {Button, H3, Input, Paragraph, View, YStack} from "tamagui";
-import PageView from "@/components/PageView";
+import ScreenView from "@/components/ScreenView";
 import {useRouter} from "expo-router";
-import AppLogo from "@/components/surface/AppLogo";
+import AppLogo from "@/components/AppLogo";
 import AppBackButton from "@/components/controls/AppBackButton";
 import Caption from "@/components/typography/Caption";
 
@@ -9,7 +9,7 @@ export default function SingUp() {
     const router = useRouter()
 
     return (
-        <PageView>
+        <ScreenView>
             <View flex={1} backgroundColor="$background" padding="$4">
                 {router.canGoBack() && <AppBackButton onPress={router.back}/>}
                 <View flex={0.2} alignItems="center" justifyContent="center">
@@ -37,6 +37,6 @@ export default function SingUp() {
                     notre politique de confidentialité.
                 </Caption>
             </View>
-        </PageView>
+        </ScreenView>
     )
 }

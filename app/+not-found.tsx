@@ -1,17 +1,31 @@
 import { Link, Stack } from 'expo-router';
-import {H1, Paragraph, View} from "tamagui";
-import PageView from "@/components/PageView";
+import {H5, Paragraph, View, YStack} from "tamagui";
+import ScreenView from "@/components/ScreenView";
+import AppLogo from "@/components/AppLogo";
 
 export default function NotFoundScreen() {
   return (
-    <PageView showStatusBar={false}>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View flex={1} alignItems="center" justifyContent="center" padding={20}>
-        <H1>This screen doesn't exist.</H1>
-        <Link href="/(authed)/(tabs)/home">
-          <Paragraph>Go to home screen!</Paragraph>
-        </Link>
-      </View>
-    </PageView>
+      <ScreenView>
+          <Stack.Screen options={{ title: 'Oops !' }} />
+          <View flex={1} backgroundColor="$background" padding="$4">
+              <YStack alignItems="center" justifyContent="center" flex={1} gap="$4">
+                  <AppLogo width={100} height={100}/>
+                  <YStack width="100%" gap="$6" alignItems="center" paddingHorizontal="$4">
+                      <YStack>
+                          <H5 fontWeight="bold" lineHeight="$8" textAlign="center">
+                              Une erreur s'est produite
+                          </H5>
+                          <Paragraph textAlign="center" lineHeight="$1" marginTop="auto">
+                              Nous avons une difficulté à charger la page que vous recherchez.
+                          </Paragraph>
+                      </YStack>
+
+                      <Link href="/">
+                          <Paragraph>Recommencer</Paragraph>
+                      </Link>
+                  </YStack>
+              </YStack>
+          </View>
+      </ScreenView>
   );
 }

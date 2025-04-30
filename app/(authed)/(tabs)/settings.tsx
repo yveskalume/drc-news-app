@@ -1,10 +1,10 @@
 import {Paragraph} from "tamagui";
-import PageView from "@/components/PageView";
+import ScreenView from "@/components/ScreenView";
 
 export default function Settings() {
     return (
-        <PageView>
+        <ScreenView>
             <Paragraph>Home</Paragraph>
-        </PageView>
+        </ScreenView>
     )
 }

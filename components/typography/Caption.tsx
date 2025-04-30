@@ -11,7 +11,7 @@ export default function Caption(props: React.PropsWithChildren<ParagraphProps>) 
 
     return (
         <Paragraph
-            fontSize="$1"
+            fontSize="$2"
             lineHeight="$1"
             color="$gray10"
             paddingHorizontal={paddingHorizontal}

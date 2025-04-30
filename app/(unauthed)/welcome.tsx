@@ -1,14 +1,14 @@
 import {Button, H2, Paragraph, View, YStack} from "tamagui";
-import PageView from "@/components/PageView";
+import ScreenView from "@/components/ScreenView";
 import {useRouter} from "expo-router";
 import Caption from "@/components/typography/Caption";
-import AppLogo from "@/components/surface/AppLogo";
+import AppLogo from "@/components/AppLogo";
 
 export default function Welcome() {
     const router = useRouter();
 
     return (
-        <PageView paddingTop={0} paddingBottom={0} statusBarStyle="light">
+        <ScreenView paddingTop={0} paddingBottom={0} statusBarStyle="light">
             <View flex={1} backgroundColor="$background" padding="$4">
                 <YStack alignItems="center" justifyContent="center" flex={1} gap="$4">
                     <AppLogo width={100} height={100}/>
@@ -39,6 +39,6 @@ export default function Welcome() {
                     </YStack>
                 </YStack>
             </View>
-        </PageView>
+        </ScreenView>
     );
 }

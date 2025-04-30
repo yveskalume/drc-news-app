@@ -1,6 +1,6 @@
 import {Button, H3, Input, Paragraph, View, YStack} from "tamagui";
-import PageView from "@/components/PageView";
-import AppLogo from "@/components/surface/AppLogo";
+import ScreenView from "@/components/ScreenView";
+import AppLogo from "@/components/AppLogo";
 import {useRouter} from "expo-router";
 import AppBackButton from "@/components/controls/AppBackButton";
 
@@ -8,17 +8,18 @@ export default function PasswordRequest() {
     const router = useRouter()
 
     return (
-        <PageView>
+        <ScreenView>
             <View flex={1} backgroundColor="$background" padding="$4">
                 {router.canGoBack() && <AppBackButton onPress={router.back}/>}
                 <View flex={0.2} alignItems="center" justifyContent="center">
-                    <AppLogo />
+                    <AppLogo/>
                 </View>
                 <YStack flex={0.8} gap="$4" width="100%" justifyContent="flex-start">
                     <YStack marginBottom="$4">
                         <H3 fontWeight="bold" textAlign="center" marginBottom="$3">Mot de passe oublié ?</H3>
                         <Paragraph textAlign="center" lineHeight="$1" marginTop="auto" paddingHorizontal="$4">
-                            Veuillez entrer votre adresse e-mail pour recevoir un lien de réinitialisation de mot de passe.
+                            Veuillez entrer votre adresse e-mail pour recevoir un lien de réinitialisation de mot de
+                            passe.
                         </Paragraph>
                     </YStack>
 
@@ -32,6 +33,6 @@ export default function PasswordRequest() {
                     </Button>
                 </YStack>
             </View>
-        </PageView>
+        </ScreenView>
     )
 }
