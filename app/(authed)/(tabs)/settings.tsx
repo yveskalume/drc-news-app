@@ -1,12 +1,18 @@
 import {Button, H3, View, YStack} from "tamagui";
 import ScreenView from "@/components/ScreenView";
 import {useAuth} from "@/providers/AuthProvider";
+import {useLogout} from "@/api/request";
+import {ActivityIndicator} from "react-native";
 
 export default function Settings() {
     const authState = useAuth();
+    const {mutate: logoutRequest, isPending} = useLogout()
 
     const handleLogout = async () => {
-        authState.logout()
+        logoutRequest(undefined, {
+            onSuccess: () => authState.logout(),
+            onError: () => authState.logout()
+        })
     }
 
     return (
@@ -15,7 +21,14 @@ export default function Settings() {
                 <H3 fontWeight="bold" alignSelf="flex-start">Paramètres</H3>
 
                 <YStack width="100%">
-                    <Button onPress={handleLogout} theme="accent" fontWeight="bold">Déconnexion</Button>
+                    <Button
+                        disabled={isPending}
+                        onPress={handleLogout}
+                        theme={isPending ? "disabled" : "accent"}
+                        fontWeight="bold"
+                    >
+                        {isPending ? <ActivityIndicator/> : "Déconnexion"}
+                    </Button>
                 </YStack>
             </View>
         </ScreenView>

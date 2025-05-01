@@ -4,9 +4,44 @@ import {useRouter} from "expo-router";
 import AppLogo from "@/components/AppLogo";
 import AppBackButton from "@/components/controls/AppBackButton";
 import Caption from "@/components/typography/Caption";
+import {useMemo, useState} from "react";
+import {useRegister} from "@/api/request";
+import Toast from "react-native-toast-message";
+import {useErrorMessage} from "@/hooks/api/useErrorMessage";
+import {ActivityIndicator} from "react-native";
 
 export default function SingUp() {
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const router = useRouter()
+    const {mutate: registerRequest, isPending} = useRegister()
+
+    const isFormValid = useMemo(() => {
+        return email.trim().length > 0
+            && password.trim().length > 0
+            && name.trim().length > 0
+    }, [email, password, name]);
+
+    const handleSubmit = () => {
+        registerRequest({name, email, password}, {
+            onSuccess: () => {
+                Toast.show({
+                    text1: "Félicitations !",
+                    text2: "les détails de votre compte vous ont été envoyés par e-mail.",
+                    type: "success",
+                })
+                router.replace("/(unauthed)/signin")
+            },
+            onError: (error) => {
+                Toast.show({
+                    text1: "Erreur",
+                    text2: useErrorMessage(error),
+                    type: "error",
+                })
+            }
+        })
+    }
 
     return (
         <ScreenView>
@@ -23,12 +58,35 @@ export default function SingUp() {
                         </Paragraph>
                     </YStack>
 
-                    <Input size="$large" placeholder="Nom d'utilisateur"/>
-                    <Input size="$large" placeholder="Addresse e-mail"/>
-                    <Input size="$large" placeholder="Mot de passe"/>
+                    <Input
+                        onChangeText={setName}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        size="$large"
+                        placeholder="Nom d'utilisateur"
+                    />
+                    <Input
+                        onChangeText={setEmail}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardType="email-address"
+                        size="$large"
+                        placeholder="Addresse e-mail"
+                    />
+                    <Input
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        size="$large"
+                        placeholder="Mot de passe"
+                    />
 
-                    <Button onPress={() => router.replace("/signin")} theme="accent" fontWeight="bold">
-                        Ouvrir un compte
+                    <Button
+                        onPress={handleSubmit}
+                        disabled={!isFormValid || isPending}
+                        theme={!isFormValid || isPending ? "disabled" : "accent"}
+                        fontWeight="bold"
+                    >
+                        {isPending ? <ActivityIndicator /> : "Créer un compte"}
                     </Button>
                 </YStack>
 

@@ -5,12 +5,12 @@ import {useRouter} from "expo-router";
 import AppBackButton from "@/components/controls/AppBackButton";
 import Caption from "@/components/typography/Caption";
 import {useMemo, useState} from "react";
-import * as Burnt from "burnt";
 import {useErrorMessage} from "@/hooks/api/useErrorMessage";
 import {useLogin} from "@/api/request";
 import {ActivityIndicator} from "react-native";
 import {useAuth} from "@/providers/AuthProvider";
 import {LoginResponse} from "@/api/types";
+import Toast from "react-native-toast-message";
 
 export default function SignIn() {
     const auth = useAuth();
@@ -33,13 +33,13 @@ export default function SignIn() {
         loginRequest({username: email, password}, {
             onSuccess: async (data: LoginResponse) => {
                 auth.login(data.token, data.refresh_token);
-                Burnt.toast({title: "Connexion réussie", preset: "done"});
+                Toast.show({text1: "Connexion réussie", type: "success"});
             },
             onError: error => {
-                Burnt.toast({
-                    title: "Erreur de connexion",
-                    message: useErrorMessage(error),
-                    preset: "error",
+                Toast.show({
+                    text1: "Erreur de connexion",
+                    text2: useErrorMessage(error),
+                    type: "error",
                 });
             },
         });

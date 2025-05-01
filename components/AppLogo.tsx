@@ -10,7 +10,7 @@ export default function AppLogo(props: AppLogoProps) {
 
     return (
         <Image
-            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Coat_of_arms_of_the_Democratic_Republic_of_the_Congo_%28with_background%29.svg/1026px-Coat_of_arms_of_the_Democratic_Republic_of_the_Congo_%28with_background%29.svg.png' }}
+            source={require('@/assets/images/logo.png')}
             width={height}
             height={width}
             objectFit="contain"
