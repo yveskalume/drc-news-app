@@ -10,7 +10,7 @@ export type ClientErrorResponse = {
     message: string;
 }
 
-export type LoginRequest = {
+export type Login = {
     username: string;
     password: string;
 }
@@ -20,13 +20,13 @@ export type LoginResponse = {
     refresh_token: string;
 };
 
-export type RegisterRequest = {
+export type Register = {
     name: string,
     email: string,
     password: string
 }
 
-export type RefreshTokenRequest = {
+export type RefreshToken = {
     refresh_token: string;
 }
 
@@ -34,23 +34,59 @@ export type RefreshTokenResponse = {
     token: string;
 }
 
-export type PasswordForgottenRequest = {
+export type PasswordForgotten = {
     email: string
 }
 
 export type Article = {
-    id: string // 01967ea2-e9f9-75e2-af9a-6fe3462d9814
+    id: string
     title: string
     link: URL
-    categories: string
+    categories: string[]
     body: string
-    source: string // actualite.cd
-    hash: string // 764d50bc897567d2bc1baf8d66b1b286
-    publishedAt: string // 2025-04-28T16:28:00+00:00
-    crawledAt: string // 2025-04-28T16:28:00+00:00
+    source: string
+    hash: string
+    credibility: {
+        bias: string
+        reliability: string
+        transparency: "low" | "medium" | "high"
+    }
+    sentiment: "negative" | "positive" | "neutral"
+    publishedAt: string
+    crawledAt: string
+    updatedAt: string
 }
 
-export type ListArticlesRequest = {
+export type SourceOverview = {
+    articles: number,
+    source: string
+    url: URL,
+    crawledAt: string
+    updatedAt: string|null
+}
+
+export type SourceStatisticsDetails = {
+    source: string
+    publicationsGraph: Array<{
+        date: 'string',
+        count: number }
+    >
+    categoriesShares: Array<{
+        name: string,
+        count: number,
+        percentage: number
+    }>
+    categories: number
+    articles: number
+    crawledAt: string
+    updatedAt: string|null
+}
+
+export type SourcesStatisticsOverview = {
+    items: Array<SourceOverview>
+}
+
+export type GetArticleListQuery = {
     dateRange?: {
         start: number
         end: number
@@ -61,7 +97,7 @@ export type ListArticlesRequest = {
     search?: string
 }
 
-export type ListArticlesResponse = {
+export type ArticleList = {
     items: Article[]
     pagination: {
         currentPage: number

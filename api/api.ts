@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {RefreshTokenRequest, RefreshTokenResponse} from "@/api/types";
+import {RefreshToken, RefreshTokenResponse} from "@/api/types";
 import {clearTokens, setTokens, useAccessToken, useRefreshToken} from "@/api/auth";
 
 const endpoint = 'https://news.devscast.org/api';
@@ -59,7 +59,7 @@ api.interceptors.response.use(
 
                 const response = await axios.post<RefreshTokenResponse>(`${endpoint}/token/refresh`, {
                     "refresh_token": refreshToken
-                } as RefreshTokenRequest);
+                } as RefreshToken);
 
                 const updatedToken = response.data.token;
                 await setTokens(updatedToken, refreshToken);

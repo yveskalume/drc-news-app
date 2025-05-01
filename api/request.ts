@@ -1,9 +1,9 @@
 import {
     ClientDetailErrorResponse,
-    ClientErrorResponse, ListArticlesRequest, ListArticlesResponse,
-    LoginRequest,
+    ClientErrorResponse, GetArticleListQuery, ArticleList,
+    Login,
     LoginResponse,
-    PasswordForgottenRequest, RegisterRequest
+    PasswordForgotten, Register, SourceStatisticsDetails, SourcesStatisticsOverview, Article
 } from "@/api/types";
 import api from "@/api/api";
 import {useInfiniteQuery, useMutation, useQuery} from "@tanstack/react-query";
@@ -13,8 +13,8 @@ import qs from "qs";
 type ErrorResponse = AxiosError<ClientErrorResponse|ClientDetailErrorResponse>
 
 export const useLogin = () => {
-    return useMutation<LoginResponse, ErrorResponse, LoginRequest>({
-        mutationFn: async (data: LoginRequest): Promise<LoginResponse> => {
+    return useMutation<LoginResponse, ErrorResponse, Login>({
+        mutationFn: async (data: Login): Promise<LoginResponse> => {
             const response = await api.post('/login_check', data);
             return response.data;
         }
@@ -22,29 +22,60 @@ export const useLogin = () => {
 };
 
 export const useRegister = () => {
-    return useMutation<void, ErrorResponse, RegisterRequest>({
-        mutationFn: async (data: RegisterRequest): Promise<void> => {
+    return useMutation<void, ErrorResponse, Register>({
+        mutationFn: async (data: Register): Promise<void> => {
             await api.post('/register', data)
         }
     })
 }
 
-export const useArticles = (data: ListArticlesRequest) => {
+export const useArticles = (data: GetArticleListQuery) => {
     const query = qs.stringify(data, { skipNulls: true })
     const url = `/aggregator/articles?${query}`
 
-    return useQuery<ListArticlesResponse, ErrorResponse>({
+    return useQuery<ArticleList, ErrorResponse>({
         queryKey: [url],
         staleTime: 1_000 * 60 * 5,
-        queryFn: async (data): Promise<ListArticlesResponse> => {
+        queryFn: async (data): Promise<ArticleList> => {
             const response = await api.get(url);
             return response.data
         }
     })
 }
 
-export const useInfiniteArticles = (baseParams: Omit<ListArticlesRequest, 'page'>) => {
-    return useInfiniteQuery<ListArticlesResponse>({
+export const useArticle = (id: string) => {
+    return useQuery<Article, ErrorResponse>({
+        queryKey: ['article', id],
+        staleTime: 1_000 * 60 * 5,
+        queryFn: async (id): Promise<Article> => {
+            const response = await api.get(`/aggregator/articles/${id}`)
+            return response.data
+        }
+    })
+}
+
+export const useSourceStatisticsDetails = (source: string) => {
+    return useQuery<SourceStatisticsDetails, ErrorResponse>({
+        queryKey: ['source-statistics-details', source],
+        queryFn: async (source): Promise<SourceStatisticsDetails> => {
+            const response = await api.get(`/aggregator/statistics/${source}`);
+            return response.data;
+        }
+    })
+}
+
+export const useSourcesStatisticsOverview = () => {
+    return useQuery<SourcesStatisticsOverview, ErrorResponse>({
+        queryKey: ['sources-statistics-overview'],
+        queryFn: async (): Promise<SourcesStatisticsOverview> => {
+            const response = await api.get(`/aggregator/statistics`);
+            return response.data;
+        }
+    })
+}
+
+export const useInfiniteArticles = (baseParams: Omit<GetArticleListQuery, 'page'>) => {
+    return useInfiniteQuery<ArticleList>({
         initialData: undefined,
         initialPageParam: 1,
         queryKey: ['articles', baseParams],
@@ -58,14 +89,14 @@ export const useInfiniteArticles = (baseParams: Omit<ListArticlesRequest, 'page'
             const { currentPage, totalPages } = lastPage.pagination
             return currentPage < totalPages ? currentPage + 1 : undefined
         },
-        staleTime: 1000 * 60 * 5
+        staleTime: 1_000 * 60 * 5
     })
 }
 
 
 export const usePasswordForgotten = () => {
-    return useMutation<void, ErrorResponse, PasswordForgottenRequest>({
-        mutationFn: async (data: PasswordForgottenRequest): Promise<void> => {
+    return useMutation<void, ErrorResponse, PasswordForgotten>({
+        mutationFn: async (data: PasswordForgotten): Promise<void> => {
             await api.post('/password/request', data);
         }
     })
