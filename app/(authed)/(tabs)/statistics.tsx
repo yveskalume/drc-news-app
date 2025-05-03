@@ -7,9 +7,9 @@ import {ChevronRight} from "@tamagui/lucide-icons";
 
 const SourceOverviewCard = ({data}: { data: SourceOverview }) => {
     return (
-        <Card elevate padding="$3" size="$4">
+        <Card theme="accent" elevate padding="$3" size="$4">
             <XStack alignSelf="flex-end">
-                <Paragraph color="$gray10">{new Date(data.crawledAt).toLocaleDateString()}</Paragraph>
+                <Paragraph color="$gray10">{new Date(data.crawledAt).toDateString()}</Paragraph>
                 <ChevronRight size="$1" color="$gray10"/>
             </XStack>
             <XStack gap="$2" justifyContent="space-between" alignItems="center">

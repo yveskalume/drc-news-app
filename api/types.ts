@@ -21,9 +21,9 @@ export type LoginResponse = {
 };
 
 export type Register = {
-    name: string,
-    email: string,
-    password: string
+    name: string;
+    email: string;
+    password: string;
 }
 
 export type RefreshToken = {
@@ -35,51 +35,59 @@ export type RefreshTokenResponse = {
 }
 
 export type PasswordForgotten = {
-    email: string
+    email: string;
 }
 
 export type Article = {
-    id: string
-    title: string
-    link: URL
-    categories: string[]
-    body: string
-    source: string
-    hash: string
+    id: string;
+    title: string;
+    link: string;
+    categories: Array<string>;
+    body: string;
+    source: string;
+    hash: string;
     credibility: {
-        bias: string
-        reliability: string
-        transparency: "low" | "medium" | "high"
-    }
-    sentiment: "negative" | "positive" | "neutral"
-    publishedAt: string
-    crawledAt: string
-    updatedAt: string
-}
+        bias: "neutral" | "slightly" | "partisan" | "extreme";
+        reliability: "trusted" | "reliable" | "average" | "unreliable" | "low_trust";
+        transparency: "low" | "medium" | "high";
+    };
+    sentiment: "negative" | "positive" | "neutral";
+    metadata?: {
+        title?: string;
+        description?: string;
+        image?: string;
+        video?: string;
+        audio?: string;
+        locale?: string;
+    };
+    publishedAt: string;
+    crawledAt: string;
+    updatedAt: string;
+};
 
 export type SourceOverview = {
-    articles: number,
-    source: string
-    url: URL,
-    crawledAt: string
-    updatedAt: string|null
+    articles: number;
+    source: string;
+    url: string;
+    crawledAt: string;
+    updatedAt?: string;
 }
 
 export type SourceStatisticsDetails = {
     source: string
     publicationsGraph: Array<{
-        date: 'string',
-        count: number }
-    >
+        date: string;
+        count: number;
+    }>
     categoriesShares: Array<{
-        name: string,
-        count: number,
+        name: string;
+        count: number;
         percentage: number
     }>
-    categories: number
-    articles: number
-    crawledAt: string
-    updatedAt: string|null
+    categories: number;
+    articles: number;
+    crawledAt: string;
+    updatedAt?: string;
 }
 
 export type SourcesStatisticsOverview = {
@@ -88,21 +96,21 @@ export type SourcesStatisticsOverview = {
 
 export type GetArticleListQuery = {
     dateRange?: {
-        start: number
-        end: number
+        start: number;
+        end: number;
     }
-    page?: number
-    limit?: number
-    source?: string
-    search?: string
+    page?: number;
+    limit?: number;
+    source?: string;
+    search?: string;
 }
 
 export type ArticleList = {
-    items: Article[]
+    items: Array<Article>;
     pagination: {
-        currentPage: number
-        totalItems: number
-        itemsPerPage: number
-        totalPages: number
+        currentPage: number;
+        totalItems: number;
+        itemsPerPage: number;
+        totalPages: number;
     }
 }

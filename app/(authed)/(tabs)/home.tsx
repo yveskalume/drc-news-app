@@ -1,4 +1,4 @@
-import {Button, Card, H3, H4, Paragraph, ScrollView, View, XStack, YStack} from "tamagui";
+import {Button, Card, H3, H4, Image, Paragraph, ScrollView, View, XStack, YStack} from "tamagui";
 import ScreenView from "@/components/ScreenView";
 import {Article} from "@/api/types";
 import {useInfiniteArticles} from "@/api/request";
@@ -7,29 +7,43 @@ import {useState} from "react";
 import {ArrowLeft} from "@tamagui/lucide-icons";
 
 
-const ArticleCard = ({article}: { article: Article }) => (
-    <Card padding="$3" bordered elevate>
-        <Paragraph fontWeight="600" fontSize="$5" marginBottom="$1">
-            {article.title}
-        </Paragraph>
-        <YStack gap="$3">
-            <Paragraph size="$2">
-                {article.categories.join(', ').toLowerCase()}
-            </Paragraph>
-            <Paragraph size="$3" numberOfLines={3}>
-                {article.body}
-            </Paragraph>
-            <XStack justifyContent="space-between" alignItems="center" marginBottom="$1">
-                <Paragraph size="$2">
-                    {article.source}
+const ArticleCard = ({article}: { article: Article }) => {
+    return (
+        <Card theme="accent" elevate>
+            {article.metadata?.image && (
+                <Image
+                    borderTopEndRadius="$2"
+                    borderTopStartRadius="$2"
+                    source={{uri: article.metadata.image}}
+                    objectFit="cover"
+                    width="100%"
+                    height="200"
+                />
+            )}
+            <YStack padding="$3">
+                <Paragraph fontWeight="600" fontSize="$5" marginBottom="$1">
+                    {article.title}
                 </Paragraph>
-                <Paragraph size="$2">
-                    {new Date(article.publishedAt).toLocaleDateString()}
-                </Paragraph>
-            </XStack>
-        </YStack>
-    </Card>
-)
+                <YStack gap="$3">
+                    <Paragraph size="$2">
+                        {article.categories.join(', ').toLowerCase()}
+                    </Paragraph>
+                    <Paragraph size="$3" numberOfLines={3}>
+                        {article.metadata?.description ?? article.body.trim().substring(0, 100)}...
+                    </Paragraph>
+                    <XStack justifyContent="space-between" alignItems="center" marginBottom="$1">
+                        <Paragraph size="$2" fontWeight="bold">
+                            {article.source}
+                        </Paragraph>
+                        <Paragraph size="$2">
+                            {new Date(article.publishedAt).toDateString()}
+                        </Paragraph>
+                    </XStack>
+                </YStack>
+            </YStack>
+        </Card>
+    );
+}
 
 export default function Home() {
     const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
@@ -97,21 +111,34 @@ export default function Home() {
                     onRequestClose={() => setSheetPresenting(false)}
                     style={{backgroundColor: "$background"}}
                 >
-                    <ScreenView>
+                    <ScreenView paddingTop={0}>
                         <ScrollView>
-                            <YStack padding="$4" gap="$3" backgroundColor="$background">
-                                <XStack justifyContent="flex-start">
+                            {selectedArticle && selectedArticle.metadata?.image && (
+                                <>
+                                    <Image
+                                        borderTopEndRadius="$2"
+                                        borderTopStartRadius="$2"
+                                        source={{uri: selectedArticle.metadata.image}}
+                                        objectFit="cover"
+                                        width="100%"
+                                        height="300"
+                                    />
                                     <Button
                                         chromeless
+                                        position="absolute"
+                                        top="$4"
+                                        left="$4"
                                         size="$4"
                                         width="$4"
                                         height="$4"
                                         borderRadius="$12"
-                                        backgroundColor="$gray6"
+                                        backgroundColor="$background"
                                         icon={<ArrowLeft size="$1"/>}
                                         onPress={() => setSheetPresenting(false)}
                                     />
-                                </XStack>
+                                </>
+                            )}
+                            <YStack padding="$4" gap="$3" backgroundColor="$background">
                                 {selectedArticle && (
                                     <YStack>
                                         <Paragraph color="$gray10">
@@ -125,11 +152,11 @@ export default function Home() {
                                                 {selectedArticle.source}
                                             </Paragraph>
                                             <Paragraph size="$2" color="$gray10">
-                                                {new Date(selectedArticle.publishedAt).toLocaleDateString()}
+                                                {new Date(selectedArticle.publishedAt).toDateString()}
                                             </Paragraph>
                                         </XStack>
                                         <Paragraph size="$3" marginTop="$2">
-                                            {selectedArticle.body}
+                                            {selectedArticle.body.trim()}
                                         </Paragraph>
                                     </YStack>
                                 )}
