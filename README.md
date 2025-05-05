@@ -1,4 +1,8 @@
-# DRC News Corpus : Towards a scalable and intelligent system for Congolese News curation
+# Mobile Application
+
+---
+
+## DRC News Corpus : Towards a scalable and intelligent system for Congolese News curation
 
 ```tex
 @misc {bernard_ngandu_2025,
@@ -16,17 +20,17 @@
 - The [Backend](https://github.com/bernard-ng/drc-news-corpus) was created with [`symfony`](https://symfony.com)
 ---
 
-## Introduction
+### Introduction
 
 The **"DRC News Corpus"** is a structured and scalable dataset of news articles sourced from major media outlets covering diverse aspects of the Democratic Republic of Congo (DRC). Designed for efficiency, this system enables the automated collection, processing, and organization of news stories spanning politics, economy, society, culture, environment, and international affairs.
 
-## Screenshots
+### Screenshots
 
 <img src="./assets/screenshots/1.png" width="250">&nbsp;
 <img src="./assets/screenshots/2.png" width="250">&nbsp;
 <img src="./assets/screenshots/3.png" width="250">&nbsp;
 
-## Sources
+### Sources
 
 | Source         | Supported | Articles | Link                                 | Last Crawled |
 |----------------|-----------|----------|--------------------------------------|--------------|
@@ -37,7 +41,7 @@ The **"DRC News Corpus"** is a structured and scalable dataset of news articles 
 | 7sur7.cd       | Yes       | +30k     | https://7sur7.cd                     | 2025-02-28   |
 | newscd.net     | Yes       | +5k      | https://newscd.net                   | 2025-05-05   |
 
-## Get started
+### Get started
 
 1. Install dependencies
 
@@ -58,6 +62,6 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Acknowledgment:
+### Acknowledgment:
 The compilation and curation of the "DRC News Corpus" were conducted by Tshabu Ngandu Bernard with the primary objective of facilitating research and analysis related to the Democratic Republic of Congo.
 I do not own the content of the articles, and all rights belong to the respective publishers.
