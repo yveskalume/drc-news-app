@@ -43,11 +43,11 @@ export const useArticles = (data: GetArticleListQuery) => {
     })
 }
 
-export const useArticle = (id: string) => {
+export const useArticleDetails = (id: string) => {
     return useQuery<Article, ErrorResponse>({
         queryKey: ['article', id],
         staleTime: 1_000 * 60 * 5,
-        queryFn: async (id): Promise<Article> => {
+        queryFn: async (): Promise<Article> => {
             const response = await api.get(`/aggregator/articles/${id}`)
             return response.data
         }

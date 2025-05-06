@@ -9,6 +9,6 @@ export default function Index() {
     }
 
     return auth.isLoggedIn ?
-        <Redirect href="/(authed)/(tabs)/home"/> :
+        <Redirect href="/(authed)/(tabs)/articles"/> :
         <Redirect href="/(unauthed)/welcome"/>;
 }

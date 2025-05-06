@@ -9,7 +9,7 @@ export default function AuthedLayout() {
     }
 
     if (auth.isLoggedIn) {
-        return <Redirect href="/(authed)/(tabs)/home" />
+        return <Redirect href="/(authed)/(tabs)/articles" />
     }
 
 

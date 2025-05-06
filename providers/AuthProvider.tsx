@@ -38,7 +38,7 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
         setAccessToken(access);
         setRefreshToken(refresh);
         setTokens(access, refresh);
-        router.replace('/(authed)/(tabs)/home');
+        router.replace('/(authed)/(tabs)/articles');
     };
 
     const logout = () => {

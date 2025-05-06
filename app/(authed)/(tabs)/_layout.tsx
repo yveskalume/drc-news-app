@@ -9,7 +9,7 @@ export default function TabLayout() {
 
     return (
         <Tabs
-            initialRouteName="home"
+            initialRouteName="articles"
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: true,
@@ -28,7 +28,8 @@ export default function TabLayout() {
                 }
             }}
         >
-            <Tabs.Screen name="home" options={{
+            <Tabs.Screen name="articles" options={{
+                href: '/(authed)/(tabs)/articles',
                 tabBarLabel: ({color}) => (
                     <Paragraph size="$2" color={color}>Actualités</Paragraph>
                 ),
@@ -36,7 +37,8 @@ export default function TabLayout() {
                     <Globe size={size} color={color}/>
                 )
             }}/>
-            <Tabs.Screen name="statistics" options={{
+            <Tabs.Screen name="sources/statistics" options={{
+                href: '/(authed)/(tabs)/sources/statistics',
                 tabBarLabel: ({color}) => (
                     <Paragraph size="$2" color={color}>Statistiques</Paragraph>
                 ),
@@ -44,7 +46,8 @@ export default function TabLayout() {
                     <ChartBar size={size} color={color}/>
                 )
             }}/>
-            <Tabs.Screen name="settings" options={{
+            <Tabs.Screen name="account/settings" options={{
+                href: '/(authed)/(tabs)/account/settings',
                 tabBarLabel: ({color}) => (
                     <Paragraph size="$2" color={color}>Paramètres</Paragraph>
                 ),

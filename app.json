@@ -35,6 +35,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "expo-web-browser",
+        {
+          "experimentalLauncherActivity": false
+        }
+      ],
       "expo-build-properties"
     ],
     "experiments": {

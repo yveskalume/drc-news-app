@@ -17,7 +17,7 @@ export default function SignIn() {
     const router = useRouter();
 
     if (auth.isLoggedIn) {
-        router.replace("/(authed)/(tabs)/home")
+        router.replace("/(authed)/(tabs)/articles")
     }
 
     const [email, setEmail] = useState("");

@@ -2,7 +2,7 @@ import axios, {AxiosInstance} from 'axios';
 import {RefreshToken, RefreshTokenResponse} from "@/api/types";
 import {clearTokens, setTokens, useAccessToken, useRefreshToken} from "@/api/auth";
 
-const endpoint = 'https://devscast.org/api';
+const endpoint = process.env.EXPO_PUBLIC_API_URL!;
 const api: AxiosInstance = axios.create({
     baseURL: endpoint,
     headers: {
