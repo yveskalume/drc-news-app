@@ -6,6 +6,7 @@ import {FontsLoaderProvider} from "@/providers/FontsLoaderProvider";
 import {TanstackQueryProvider} from "@/providers/TanstackQueryProvider";
 import {TamaguiConfigProvider} from "@/providers/TamaguiConfigProvider";
 import {AuthProvider} from "@/providers/AuthProvider";
+import {NetworkProvider} from "@/providers/NetworkProvider";
 
 export const RootProviders = ({children}: React.PropsWithChildren) => (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -13,9 +14,11 @@ export const RootProviders = ({children}: React.PropsWithChildren) => (
             <SafeAreaProvider>
                 <FontsLoaderProvider>
                     <TamaguiConfigProvider>
-                        <AuthProvider>
-                            {children}
-                        </AuthProvider>
+                        <NetworkProvider>
+                            <AuthProvider>
+                                {children}
+                            </AuthProvider>
+                        </NetworkProvider>
                     </TamaguiConfigProvider>
                 </FontsLoaderProvider>
             </SafeAreaProvider>

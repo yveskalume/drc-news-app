@@ -2,7 +2,6 @@ import type React from "react";
 
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {YStack} from "tamagui";
-import {Platform} from "react-native";
 import {StatusBar} from "expo-status-bar";
 
 type ScreenViewProps = React.ComponentProps<typeof YStack> & {
@@ -17,6 +16,7 @@ export default function ScreenView(props: React.PropsWithChildren<ScreenViewProp
         showStatusBar = true,
         statusBarStyle = "auto",
         statusBarBackgroundColor = "transparent",
+        padding,
         children,
         ...rest
     } = props;
@@ -29,7 +29,9 @@ export default function ScreenView(props: React.PropsWithChildren<ScreenViewProp
                 flex={1}
                 paddingBottom={insets.bottom}
                 paddingTop={insets.top}
-                alignItems={Platform.OS === "web" ? "center" : undefined}
+                gap="$4"
+                paddingHorizontal={padding ?? props.padding ?? "$4"}
+                alignItems="center"
                 backgroundColor="$background"
                 {...rest}
             >

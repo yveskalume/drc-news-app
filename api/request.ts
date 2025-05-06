@@ -1,6 +1,6 @@
 import {
     ClientDetailErrorResponse,
-    ClientErrorResponse, GetArticleListQuery, ArticleList,
+    ClientErrorResponse, GetArticleListQuery, ArticleOverviewList,
     Login,
     LoginResponse,
     PasswordForgotten, Register, SourceStatisticsDetails, SourcesStatisticsOverview, Article
@@ -29,14 +29,14 @@ export const useRegister = () => {
     })
 }
 
-export const useArticles = (data: GetArticleListQuery) => {
+export const useArticleOverviewList = (data: GetArticleListQuery) => {
     const query = qs.stringify(data, { skipNulls: true })
     const url = `/aggregator/articles?${query}`
 
-    return useQuery<ArticleList, ErrorResponse>({
+    return useQuery<ArticleOverviewList, ErrorResponse>({
         queryKey: [url],
         staleTime: 1_000 * 60 * 5,
-        queryFn: async (data): Promise<ArticleList> => {
+        queryFn: async (data): Promise<ArticleOverviewList> => {
             const response = await api.get(url);
             return response.data
         }
@@ -74,8 +74,8 @@ export const useSourcesStatisticsOverview = () => {
     })
 }
 
-export const useInfiniteArticles = (baseParams: Omit<GetArticleListQuery, 'page'>) => {
-    return useInfiniteQuery<ArticleList>({
+export const useInfiniteArticleOverviewList = (baseParams: Omit<GetArticleListQuery, 'page'>) => {
+    return useInfiniteQuery<ArticleOverviewList>({
         initialData: undefined,
         initialPageParam: 1,
         queryKey: ['articles', baseParams],
@@ -92,7 +92,6 @@ export const useInfiniteArticles = (baseParams: Omit<GetArticleListQuery, 'page'
         staleTime: 1_000 * 60 * 5
     })
 }
-
 
 export const usePasswordForgotten = () => {
     return useMutation<void, ErrorResponse, PasswordForgotten>({

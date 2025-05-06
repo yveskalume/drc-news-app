@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
 import {H5, Paragraph, View, YStack} from "tamagui";
 import ScreenView from "@/components/ScreenView";
-import AppLogo from "@/components/AppLogo";
+import AppIcon from "@/components/AppIcon";
 
 export default function NotFoundScreen() {
   return (
@@ -9,7 +9,7 @@ export default function NotFoundScreen() {
           <Stack.Screen options={{ title: 'Oops !' }} />
           <View flex={1} backgroundColor="$background" padding="$4">
               <YStack alignItems="center" justifyContent="center" flex={1} gap="$4">
-                  <AppLogo width={100} height={100}/>
+                  <AppIcon width={100} height={100}/>
                   <YStack width="100%" gap="$6" alignItems="center" paddingHorizontal="$4">
                       <YStack>
                           <H5 fontWeight="bold" lineHeight="$8" textAlign="center">

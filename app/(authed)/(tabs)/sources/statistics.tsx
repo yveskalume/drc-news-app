@@ -1,9 +1,10 @@
 import ScreenView from "@/components/ScreenView";
-import {Card, H3, H4, Paragraph, ScrollView, View, XStack, YStack} from "tamagui";
+import {Card, H4, Paragraph, ScrollView, XStack, YStack} from "tamagui";
 import {SourceOverview} from "@/api/types";
 import {useSourcesStatisticsOverview} from "@/api/request";
-import {ActivityIndicator} from "react-native";
 import {ChevronRight} from "@tamagui/lucide-icons";
+import Heading from "@/components/typography/Heading";
+import AppLoadingView from "@/components/AppLoadingView";
 
 const SourceOverviewCard = ({data}: { data: SourceOverview }) => {
     return (
@@ -27,25 +28,17 @@ export default function Statistics() {
     const sources = data?.items ?? [];
 
     if (isLoading) {
-        return (
-            <View flex={1} padding="$4" backgroundColor="$background" alignItems="center" justifyContent="center"
-                  gap="$4">
-                <ActivityIndicator/>
-                <Paragraph>Chargement...</Paragraph>
-            </View>
-        )
+        return <AppLoadingView/>
     }
 
     return (
         <ScreenView>
-            <View flex={1} padding="$4" gap="$4">
-                <H3 fontWeight="bold" alignSelf="flex-start">Statistiques</H3>
-                <ScrollView>
-                    <YStack flex={1} gap="$3">
-                        {sources.map(source => <SourceOverviewCard key={source.source} data={source}/>)}
-                    </YStack>
-                </ScrollView>
-            </View>
+            <Heading>Statistiques</Heading>
+            <ScrollView width="100%">
+                <YStack gap="$3">
+                    {sources.map(source => <SourceOverviewCard key={source.source} data={source}/>)}
+                </YStack>
+            </ScrollView>
         </ScreenView>
     );
 }

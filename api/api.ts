@@ -1,6 +1,6 @@
-import axios, {AxiosInstance} from 'axios';
-import {RefreshToken, RefreshTokenResponse} from "@/api/types";
-import {clearTokens, setTokens, useAccessToken, useRefreshToken} from "@/api/auth";
+import axios, {AxiosError, AxiosInstance} from 'axios';
+import {ClientDetailErrorResponse, ClientErrorResponse, RefreshToken, RefreshTokenResponse} from "@/api/types";
+import {clearTokens, setTokens, getAccessToken, getRefreshToken} from "@/api/auth";
 
 const endpoint = process.env.EXPO_PUBLIC_API_URL!;
 const api: AxiosInstance = axios.create({
@@ -10,6 +10,22 @@ const api: AxiosInstance = axios.create({
         'Accept': 'application/json',
     },
 });
+
+export const safeMessage = (error: AxiosError<ClientErrorResponse|ClientDetailErrorResponse>|Error): string => {
+    if (error instanceof AxiosError && error.response) {
+        const response = error.response.data;
+        console.log(JSON.stringify(response));
+
+        if ('message' in response) {
+            return response.message
+        } else if ('detail' in response) {
+            return response.detail
+        }
+    }
+
+    console.log(JSON.stringify(error));
+    return "Une erreur est survenue"
+}
 
 let isAuthTokenRefreshing = false;
 let failedRequestsQueue: ((token: string) => void)[] = [];
@@ -21,7 +37,7 @@ const processFailedRequestsQueue = (token: string) => {
 
 // Add the Authorization header to all requests
 api.interceptors.request.use(async config => {
-    const token = await useAccessToken();
+    const token = await getAccessToken();
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -51,7 +67,7 @@ api.interceptors.response.use(
             isAuthTokenRefreshing = true;
 
             try {
-                const refreshToken = await useRefreshToken();
+                const refreshToken = await getRefreshToken();
                 if (!refreshToken) {
                     await clearTokens();
                     return Promise.reject(error)

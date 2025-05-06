@@ -38,11 +38,22 @@ export type PasswordForgotten = {
     email: string;
 }
 
+export type ArticleOverview = {
+    id: string;
+    title: string;
+    link: string;
+    categories: string[];
+    excerpt: string;
+    source: string;
+    publishedAt: string
+    image?: string
+}
+
 export type Article = {
     id: string;
     title: string;
     link: string;
-    categories: Array<string>;
+    categories: string[];
     body: string;
     source: string;
     hash: string;
@@ -75,15 +86,15 @@ export type SourceOverview = {
 
 export type SourceStatisticsDetails = {
     source: string
-    publicationsGraph: Array<{
+    publicationsGraph: {
         date: string;
         count: number;
-    }>
-    categoriesShares: Array<{
+    }[]
+    categoriesShares: {
         name: string;
         count: number;
         percentage: number
-    }>
+    }[]
     categories: number;
     articles: number;
     crawledAt: string;
@@ -91,7 +102,7 @@ export type SourceStatisticsDetails = {
 }
 
 export type SourcesStatisticsOverview = {
-    items: Array<SourceOverview>
+    items: SourceOverview[]
 }
 
 export type GetArticleListQuery = {
@@ -105,8 +116,8 @@ export type GetArticleListQuery = {
     search?: string;
 }
 
-export type ArticleList = {
-    items: Array<Article>;
+export type ArticleOverviewList = {
+    items: ArticleOverview[];
     pagination: {
         currentPage: number;
         totalItems: number;

@@ -8,6 +8,7 @@
     "scheme": "congonews",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "githubUrl": "https://github.com/bernard-ng/drc-news-app",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.bernard-ng.congo-news"
@@ -33,12 +34,6 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
-        }
-      ],
-      [
-        "expo-web-browser",
-        {
-          "experimentalLauncherActivity": false
         }
       ],
       "expo-build-properties"

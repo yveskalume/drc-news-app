@@ -1,16 +1,15 @@
-import {Button, H3, Input, Paragraph, View, YStack} from "tamagui";
+import {Button, H3, Input, Paragraph, View, XStack, YStack} from "tamagui";
 import ScreenView from "@/components/ScreenView";
-import AppLogo from "@/components/AppLogo";
+import AppIcon from "@/components/AppIcon";
 import {useRouter} from "expo-router";
-import AppBackButton from "@/components/controls/AppBackButton";
 import Caption from "@/components/typography/Caption";
 import {useMemo, useState} from "react";
-import {useErrorMessage} from "@/hooks/api/useErrorMessage";
 import {useLogin} from "@/api/request";
 import {ActivityIndicator} from "react-native";
 import {useAuth} from "@/providers/AuthProvider";
 import {LoginResponse} from "@/api/types";
 import Toast from "react-native-toast-message";
+import {safeMessage} from "@/api/api";
 
 export default function SignIn() {
     const auth = useAuth();
@@ -38,7 +37,7 @@ export default function SignIn() {
             onError: error => {
                 Toast.show({
                     text1: "Erreur de connexion",
-                    text2: useErrorMessage(error),
+                    text2: safeMessage(error),
                     type: "error",
                 });
             },
@@ -47,57 +46,58 @@ export default function SignIn() {
 
     return (
         <ScreenView>
-            <View flex={1} backgroundColor="$background" padding="$4">
-                {router.canGoBack() && <AppBackButton onPress={router.back}/>}
+            <View flex={0.2} alignItems="center" justifyContent="center">
+                <AppIcon/>
+            </View>
 
-                <View flex={0.2} alignItems="center" justifyContent="center">
-                    <AppLogo/>
-                </View>
+            <YStack flex={0.8} gap="$4" width="100%" justifyContent="flex-start">
+                <YStack marginBottom="$4">
+                    <H3 fontWeight="bold" textAlign="center" marginBottom="$3">Se connecter</H3>
+                    <Paragraph textAlign="center" lineHeight="$1" paddingHorizontal="$4">
+                        Bienvenue sur CongoNews, la plateforme d'actualités intelligente
+                    </Paragraph>
+                </YStack>
 
-                <YStack flex={0.8} gap="$4" width="100%" justifyContent="flex-start">
-                    <YStack marginBottom="$4">
-                        <H3 fontWeight="bold" textAlign="center" marginBottom="$3">Se connecter</H3>
-                        <Paragraph textAlign="center" lineHeight="$1" paddingHorizontal="$4">
-                            Bienvenue sur CongoNews, la plateforme d'actualités intelligente
-                        </Paragraph>
-                    </YStack>
+                <Input
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    size="$large"
+                    placeholder="Adresse e-mail"
+                />
+                <Input
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    size="$large"
+                    placeholder="Mot de passe"
+                />
 
-                    <Input
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        size="$large"
-                        placeholder="Adresse e-mail"
-                    />
-                    <Input
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        size="$large"
-                        placeholder="Mot de passe"
-                    />
+                <Button
+                    disabled={!isFormValid || isPending}
+                    onPress={handleSubmit}
+                    theme={!isFormValid || isPending ? "disabled" : "accent"}
+                    fontWeight="bold"
+                >
+                    {isPending ? <ActivityIndicator/> : "Se connecter"}
+                </Button>
 
-                    <Button
-                        disabled={!isFormValid || isPending}
-                        onPress={handleSubmit}
-                        theme={!isFormValid || isPending ? "disabled" : "accent"}
-                        fontWeight="bold"
-                    >
-                        {isPending ? <ActivityIndicator/> : "Se connecter"}
+                <XStack justifyContent="space-between">
+                    <Button onPress={() => router.push("/signup")} chromeless>
+                        Créer un compte
                     </Button>
-
                     <Button onPress={() => router.push("/password-request")} chromeless>
                         Mot de passe oublié ?
                     </Button>
-                </YStack>
+                </XStack>
+            </YStack>
 
-                <Caption textAlign="center">
-                    En continuant, vous acceptez les conditions d'utilisation de CongoNews et reconnaissez avoir lu
-                    notre politique de confidentialité.
-                </Caption>
-            </View>
+            <Caption textAlign="center">
+                En continuant, vous acceptez les conditions d'utilisation de CongoNews et reconnaissez avoir lu
+                notre politique de confidentialité.
+            </Caption>
         </ScreenView>
     );
 }

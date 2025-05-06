@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter, SplashScreen } from "expo-router";
-import {clearTokens, setTokens, useAccessToken, useRefreshToken} from "@/api/auth";
+import {clearTokens, setTokens, getAccessToken, getRefreshToken} from "@/api/auth";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -52,8 +52,8 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
         const loadTokens = async () => {
             try {
                 const [storedAccess, storedRefresh] = await Promise.all([
-                    useAccessToken(),
-                    useRefreshToken(),
+                    getAccessToken(),
+                    getRefreshToken(),
                 ]);
 
                 if (storedAccess && storedRefresh) {

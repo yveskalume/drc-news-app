@@ -1,54 +1,36 @@
-import {Button, Card, H3, H4, Image, Paragraph, ScrollView, View, XStack, YStack} from "tamagui";
-import ScreenView from "@/components/ScreenView";
-import {Article} from "@/api/types";
-import {useInfiniteArticles} from "@/api/request";
-import {ActivityIndicator, FlatList, Modal, Pressable} from "react-native";
-import {useState} from "react";
-import {useRouter} from "expo-router";
-import AppLoadingView from "@/components/AppLoadingView";
+import React, {useCallback} from 'react'
+import {ActivityIndicator, FlatList, Pressable} from 'react-native'
+import {useRouter} from 'expo-router'
+import {Paragraph, View, YStack} from 'tamagui'
 
-const ArticleCard = ({article}: { article: Article }) => {
-    return (
-        <Card theme="accent" elevate>
-            {article.metadata?.image && (
-                <Image
-                    borderTopEndRadius="$2"
-                    borderTopStartRadius="$2"
-                    source={{uri: article.metadata.image, cache: 'force-cache'}}
-                    objectFit="cover"
-                    width="100%"
-                    height="200"
-                />
-            )}
-            <YStack padding="$3">
-                <Paragraph fontWeight="600" fontSize="$5" marginBottom="$1">
-                    {article.title}
-                </Paragraph>
-                <YStack gap="$3">
-                    <Paragraph size="$2">
-                        {article.categories.join(', ').toLowerCase()}
-                    </Paragraph>
-                    <Paragraph size="$3" numberOfLines={3}>
-                        {article.metadata?.description ?? article.body.trim().substring(0, 100)}...
-                    </Paragraph>
-                    <XStack justifyContent="space-between" alignItems="center" marginBottom="$1">
-                        <Paragraph size="$2" fontWeight="bold">
-                            {article.source}
-                        </Paragraph>
-                        <Paragraph size="$2">
-                            {new Date(article.publishedAt).toDateString()}
-                        </Paragraph>
-                    </XStack>
-                </YStack>
-            </YStack>
-        </Card>
-    );
-}
+import ScreenView from '@/components/ScreenView'
+import {useInfiniteArticleOverviewList} from '@/api/request'
+import {ArticleOverview} from '@/api/types'
+import {ArticleOverviewCard, ArticleOverviewSkeleton} from '@/components/content/ArticleOverviewCard'
+import Heading from "@/components/typography/Heading";
+
+const FooterListLoader = () => (
+    <>
+        <YStack height="$1"/>
+        <ActivityIndicator/>
+    </>
+)
+
+const ItemSeparator = () => <YStack height="$1"/>
+
+const SkeletonList = () => (
+    <FlatList
+        data={new Array(4).fill(0)}
+        keyExtractor={(_, index) => `skeleton-${index}`}
+        renderItem={({index}) => <ArticleOverviewSkeleton key={index}/>}
+        ItemSeparatorComponent={ItemSeparator}
+        contentContainerStyle={{padding: 16, alignItems: 'center'}}
+    />
+)
 
 export default function Index() {
-    const router = useRouter();
-    const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-    const [sheetPresenting, setSheetPresenting] = useState(false);
+    const router = useRouter()
+
     const {
         data,
         fetchNextPage,
@@ -56,45 +38,53 @@ export default function Index() {
         isFetchingNextPage,
         isLoading,
         refetch,
-    } = useInfiniteArticles({limit: 20})
-    const articles: Article[] = data?.pages.flatMap(p => p.items) ?? []
+    } = useInfiniteArticleOverviewList({limit: 20})
+
+    const articleOverviews: ArticleOverview[] = data?.pages.flatMap(p => p.items) ?? []
+
+    const handleOnEndReached = useCallback(() => {
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage()
+        }
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+
+    const keyExtractor = (item: ArticleOverview) => item.id
+
+    const renderItem = ({item}: { item: ArticleOverview }) => (
+        <Pressable onPress={() => router.push(`/(authed)/(tabs)/articles/${item.id}`)}>
+            <ArticleOverviewCard data={item}/>
+        </Pressable>
+    )
 
     if (isLoading) {
         return (
-            <AppLoadingView />
-        );
+            <ScreenView>
+                <SkeletonList/>
+            </ScreenView>
+        )
     }
 
     return (
         <ScreenView paddingBottom={0}>
-            <View flex={1} padding="$4" alignItems="center" gap="$4">
-                <H3 fontWeight="bold" alignSelf="flex-start">Actualités</H3>
+            <View flex={1} alignItems="center" gap="$4">
+                <Heading>Actualités</Heading>
+
                 <FlatList
-                    data={articles}
-                    onEndReached={async () => {
-                        if (hasNextPage && !isFetchingNextPage) {
-                            await fetchNextPage()
-                        }
-                    }}
-                    onEndReachedThreshold={1}
+                    data={articleOverviews}
+                    renderItem={renderItem}
+                    keyExtractor={keyExtractor}
+                    ItemSeparatorComponent={ItemSeparator}
+                    contentContainerStyle={{paddingBottom: 0}}
+                    onEndReached={handleOnEndReached}
+                    onEndReachedThreshold={0.5}
                     refreshing={isLoading}
                     onRefresh={refetch}
-                    ListFooterComponent={
-                        isFetchingNextPage ? (
-                            <>
-                                <YStack height="$1"/>
-                                <ActivityIndicator/>
-                            </>
-                        ) : null
-                    }
-                    contentContainerStyle={{paddingBottom: 0}}
-                    keyExtractor={(item: Article) => item.id}
-                    ItemSeparatorComponent={() => <YStack height="$1"/>}
-                    renderItem={({item}) => (
-                        <Pressable onPress={() => router.push(`/(authed)/(tabs)/articles/${item.id}`)}>
-                            <ArticleCard article={item}/>
-                        </Pressable>
+                    ListFooterComponent={isFetchingNextPage ? <FooterListLoader/> : null}
+                    ListEmptyComponent={() => (
+                        <Paragraph>Pas d’articles disponibles pour le moment.</Paragraph>
                     )}
+                    initialNumToRender={5}
+                    removeClippedSubviews
                 />
             </View>
         </ScreenView>
