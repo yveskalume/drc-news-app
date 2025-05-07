@@ -17,9 +17,9 @@ The **"DRC News Corpus"** is a structured and scalable dataset of news articles 
 
 ### Screenshots
 
-<img src="./assets/screenshots/1.png" width="250">&nbsp;
-<img src="./assets/screenshots/2.png" width="250">&nbsp;
-<img src="./assets/screenshots/3.png" width="250">&nbsp;
+<img src="./src/assets/screenshots/1.png" width="250">&nbsp;
+<img src="./src/assets/screenshots/2.png" width="250">&nbsp;
+<img src="./src/assets/screenshots/3.png" width="250">&nbsp;
 
 ### Sources
 
