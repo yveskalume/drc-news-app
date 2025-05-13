@@ -3,6 +3,10 @@ import {ArticleOverview} from "@/api/types";
 import {Card, Image, Paragraph, XStack, YStack} from "tamagui";
 import ContentLoader, {Rect} from "react-content-loader/native";
 import {useRelativeTime} from "@/hooks/useRelativeTime";
+import IconButton from "@/ui/components/controls/IconButton";
+import {MoreVertical, Share} from "@tamagui/lucide-icons";
+import Caption from "@/ui/components/typography/Caption";
+import ArticleSourcePill from "@/ui/components/content/ArticleSourcePill";
 
 type ArticleDisplayMode = 'card' | 'magazine' | 'text-only';
 
@@ -40,37 +44,35 @@ export const ArticleOverviewCard = (props: ArticleOverviewCardProps) => {
     const relativeTime = useRelativeTime(data.publishedAt);
 
     return (
-        <Card elevate>
+        <Card backgroundColor="transparent">
             {data.image && (
                 <Image
-                    borderTopEndRadius="$2"
-                    borderTopStartRadius="$2"
+                    borderRadius="$4"
                     source={{uri: data.image, cache: 'force-cache'}}
                     objectFit="cover"
                     width="100%"
                     height="200"
                 />
             )}
-            <YStack padding="$3">
-                <Paragraph fontWeight="600" fontSize="$5" marginBottom="$1">
+            <YStack marginTop="$2" gap="$2">
+                <Paragraph fontWeight="600" fontSize="$5">
                     {data.title}
                 </Paragraph>
-                <YStack gap="$3">
-                    <Paragraph size="$2">
-                        {data.categories.join(', ').toLowerCase()}
-                    </Paragraph>
-                    <Paragraph size="$3" numberOfLines={3}>
-                        {data.excerpt}
-                    </Paragraph>
-                    <XStack justifyContent="space-between" alignItems="center" marginBottom="$1">
-                        <Paragraph size="$2" fontWeight="bold">
-                            {data.source}
-                        </Paragraph>
-                        <Paragraph size="$2">
-                            {relativeTime}
-                        </Paragraph>
+                <Paragraph size="$3" numberOfLines={2}>
+                    {data.excerpt}
+                </Paragraph>
+            </YStack>
+            <YStack marginTop="$2">
+                <ArticleSourcePill source={data.source}/>
+                <XStack justifyContent="space-between" alignItems="center">
+                    <Caption>{relativeTime}</Caption>
+                    <XStack>
+                        <IconButton onPress={() => {
+                        }} icon={<Share/>}/>
+                        <IconButton onPress={() => {
+                        }} icon={<MoreVertical/>}/>
                     </XStack>
-                </YStack>
+                </XStack>
             </YStack>
         </Card>
     );

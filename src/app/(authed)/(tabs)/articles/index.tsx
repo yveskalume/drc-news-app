@@ -3,10 +3,11 @@ import {ActivityIndicator, FlatList, Pressable} from 'react-native'
 import {useRouter} from 'expo-router'
 import {Paragraph, YStack} from 'tamagui'
 
-import ScreenView from '@/ui/components/ScreenView'
+import ScreenView from '@/ui/components/screen/ScreenView'
 import {useInfiniteArticleOverviewList} from '@/api/request'
 import {ArticleOverview} from '@/api/types'
 import {ArticleOverviewCard, ArticleOverviewSkeleton} from '@/ui/components/content/ArticleOverviewCard'
+import AppBackButton from "@/ui/components/controls/AppBackButton";
 import Heading from "@/ui/components/typography/Heading";
 
 const FooterListLoader = () => (
@@ -16,7 +17,7 @@ const FooterListLoader = () => (
     </>
 )
 
-const ItemSeparator = () => <YStack flex={1} width="100%" height="$1"/>
+const ItemSeparator = () => <YStack height="$1"/>
 
 const skeletons = new Array(3).fill(0);
 const SkeletonList = () => {
@@ -45,9 +46,9 @@ export default function Index() {
 
     const keyExtractor = useCallback((item: ArticleOverview) => item.id, []);
 
-    const renderItem = useCallback(({ item }: { item: ArticleOverview }) => (
+    const renderItem = useCallback(({item}: { item: ArticleOverview }) => (
         <Pressable onPress={() => router.push(`/(authed)/(tabs)/articles/${item.id}`)}>
-            <ArticleOverviewCard data={item} displayMode="magazine" />
+            <ArticleOverviewCard data={item} />
         </Pressable>
     ), [router]);
 

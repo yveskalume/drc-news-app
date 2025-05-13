@@ -1,4 +1,4 @@
-import ScreenView from "@/ui/components/ScreenView";
+import ScreenView from "@/ui/components/screen/ScreenView";
 import {Card, H4, Paragraph, ScrollView, XStack, YStack} from "tamagui";
 import {SourceOverview} from "@/api/types";
 import {useSourcesStatisticsOverview} from "@/api/request";
@@ -33,7 +33,7 @@ export default function Statistics() {
 
     return (
         <ScreenView>
-            <Heading>Statistiques</Heading>
+            <ScreenView.Heading title="Statistiques "/>
             <ScrollView width="100%">
                 <YStack gap="$3">
                     {sources.map(source => <SourceOverviewCard key={source.source} data={source}/>)}
