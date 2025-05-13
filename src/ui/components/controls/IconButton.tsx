@@ -1,4 +1,3 @@
-import {ArrowLeft} from "@tamagui/lucide-icons";
 import {Button, ButtonProps} from "tamagui";
 
 type IconButtonProps = {

@@ -1,25 +1,18 @@
 import {Button, H5, Image, Paragraph, ScrollView, Separator, XStack, YStack} from "tamagui";
-import ScreenView from "@/ui/components/screen/ScreenView";
+import ScreenView from "@/ui/components/layout/ScreenView";
 import {Bookmark, MoreVertical, Share} from "@tamagui/lucide-icons";
 import {useLocalSearchParams, useRouter} from "expo-router";
 import {useArticleDetails} from "@/api/request";
-import AppLoadingView from "@/ui/components/AppLoadingView";
+import LoadingView from "@/ui/components/LoadingView";
 import Toast from "react-native-toast-message";
 import * as WebBrowser from "expo-web-browser";
 import {safeMessage} from "@/api/api";
-import AppBackButton from "@/ui/components/controls/AppBackButton";
+import BackButton from "@/ui/components/controls/BackButton";
 import IconButton from "@/ui/components/controls/IconButton";
 import {useRelativeTime} from "@/hooks/useRelativeTime";
 import Caption from "@/ui/components/typography/Caption";
 import ArticleSourcePill from "@/ui/components/content/ArticleSourcePill";
-
-const CategoryPill = ({category}: { category: string }) => {
-    return (
-        <Caption>
-            {category}
-        </Caption>
-    )
-}
+import ArticleCategoryPill from "@/ui/components/content/ArticleCategoryPill";
 
 export default function ArticleDetails() {
     const router = useRouter();
@@ -44,13 +37,13 @@ export default function ArticleDetails() {
     }
 
     if (isLoading || article === undefined) {
-        return <AppLoadingView/>
+        return <LoadingView/>
     }
 
     return (
         <ScreenView>
             <ScreenView.Heading
-                leadingAction={<AppBackButton onPress={() => router.dismissTo('/(authed)/(tabs)/articles')}/>}
+                leadingAction={<BackButton onPress={() => router.dismissTo('/(authed)/(tabs)/articles')}/>}
                 trailingActions={
                     <>
                         <IconButton onPress={() => {
@@ -62,7 +55,7 @@ export default function ArticleDetails() {
                     </>
                 }
             />
-            <ScrollView width="100%">
+            <ScrollView>
                 <YStack>
                     {article.metadata?.image && (
                         <Image
@@ -79,7 +72,7 @@ export default function ArticleDetails() {
                 <YStack gap="$4" backgroundColor="$background">
                     <XStack gap="$2" flexWrap="wrap">
                         {article.categories.map((category, index) => (
-                            <CategoryPill key={index} category={category.toLowerCase()}/>
+                            <ArticleCategoryPill key={index} category={category.toLowerCase()}/>
                         ))}
                     </XStack>
                     <H5 fontWeight="bold" marginBottom="$1">
@@ -87,11 +80,11 @@ export default function ArticleDetails() {
                     </H5>
 
                     <YStack gap="$2">
-                        <ArticleSourcePill source={article.source} />
+                        <ArticleSourcePill source={article.source}/>
                         <XStack height={20} alignItems="center">
-                            <Caption>5 min de lecture</Caption>
-                            <Separator alignSelf="stretch" vertical marginHorizontal={16}/>
                             <Caption>{relativeTime}</Caption>
+                            <Separator alignSelf="stretch" vertical marginHorizontal={16}/>
+                            <Caption>{article.readingTime} minutes de lecture</Caption>
                         </XStack>
                     </YStack>
 
@@ -99,10 +92,10 @@ export default function ArticleDetails() {
                         {article.body.trim()}
                     </Paragraph>
                 </YStack>
+                <Button width="100%" onPress={handleReadIntegrality} theme="accent" fontWeight="bold">
+                    Consulter l'article
+                </Button>
             </ScrollView>
-            <Button width="100%" onPress={handleReadIntegrality} theme="accent" fontWeight="bold">
-                Consulter l'article
-            </Button>
         </ScreenView>
     );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Paragraph, styled, View, XStack} from 'tamagui';
-import Heading from "@/ui/components/typography/Heading";
 
 const ActionContainer = styled(XStack, {
     alignItems: 'center',
@@ -16,7 +15,7 @@ interface ScreenHeadingProps {
     marginBottom?: number | string;
 }
 
-export function ScreenHeading(props: ScreenHeadingProps) {
+export default function ScreenHeading(props: ScreenHeadingProps) {
     const {
         leadingAction,
         title,

@@ -1,11 +1,11 @@
 import {ArrowLeft} from "@tamagui/lucide-icons";
 import {Button, ButtonProps} from "tamagui";
 
-type AppBackButtonProps = {
+type BackButtonProps = {
     onPress: () => void;
 }
 
-export default function AppBackButton(props: AppBackButtonProps & ButtonProps) {
+export default function BackButton(props: BackButtonProps & ButtonProps) {
     const {onPress, ...rest} = props;
 
     return (
@@ -17,7 +17,7 @@ export default function AppBackButton(props: AppBackButtonProps & ButtonProps) {
             height="$4"
             borderRadius="$12"
             // backgroundColor="$gray6"
-            icon={<ArrowLeft size="$1" />}
+            icon={<ArrowLeft size="$1"/>}
             onPress={onPress}
             {...rest}
         />

@@ -1,6 +1,5 @@
-import {Button, H3, Input, Label, Paragraph, View, XStack, YStack} from "tamagui";
-import ScreenView from "@/ui/components/screen/ScreenView";
-import AppIcon from "@/ui/components/AppIcon";
+import {Button, Input, Label, Paragraph, XStack, YStack} from "tamagui";
+import ScreenView from "@/ui/components/layout/ScreenView";
 import {Link, useRouter} from "expo-router";
 import Caption from "@/ui/components/typography/Caption";
 import React, {useMemo, useState} from "react";
@@ -11,7 +10,7 @@ import {LoginResponse} from "@/api/types";
 import Toast from "react-native-toast-message";
 import {safeMessage} from "@/api/api";
 import Heading from "@/ui/components/typography/Heading";
-import AppBackButton from "@/ui/components/controls/AppBackButton";
+import BackButton from "@/ui/components/controls/BackButton";
 
 export default function SignIn() {
     const auth = useAuth();
@@ -48,7 +47,7 @@ export default function SignIn() {
 
     return (
         <ScreenView>
-            {router.canGoBack() && <AppBackButton onPress={() => router.back()} />}
+            {router.canGoBack() && <BackButton onPress={() => router.back()}/>}
             <YStack flex={1} gap="$4" width="100%" justifyContent="flex-start">
                 <YStack gap="$4">
                     <Heading>Connexion</Heading>

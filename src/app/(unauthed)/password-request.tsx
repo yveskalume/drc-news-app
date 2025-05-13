@@ -1,5 +1,5 @@
 import {Button, H3, Input, Paragraph, View, YStack} from "tamagui";
-import ScreenView from "@/ui/components/screen/ScreenView";
+import ScreenView from "@/ui/components/layout/ScreenView";
 import AppIcon from "@/ui/components/AppIcon";
 import {Link, useRouter} from "expo-router";
 import {useState} from "react";

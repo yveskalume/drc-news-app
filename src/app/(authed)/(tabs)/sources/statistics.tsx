@@ -1,10 +1,9 @@
-import ScreenView from "@/ui/components/screen/ScreenView";
+import ScreenView from "@/ui/components/layout/ScreenView";
 import {Card, H4, Paragraph, ScrollView, XStack, YStack} from "tamagui";
 import {SourceOverview} from "@/api/types";
 import {useSourcesStatisticsOverview} from "@/api/request";
 import {ChevronRight} from "@tamagui/lucide-icons";
-import Heading from "@/ui/components/typography/Heading";
-import AppLoadingView from "@/ui/components/AppLoadingView";
+import LoadingView from "@/ui/components/LoadingView";
 
 const SourceOverviewCard = ({data}: { data: SourceOverview }) => {
     return (
@@ -25,10 +24,10 @@ const SourceOverviewCard = ({data}: { data: SourceOverview }) => {
 
 export default function Statistics() {
     const {data, isLoading} = useSourcesStatisticsOverview();
-    const sources = data?.items ?? [];
+    const sources: SourceOverview[] = data?.items ?? [];
 
     if (isLoading) {
-        return <AppLoadingView/>
+        return <LoadingView/>
     }
 
     return (

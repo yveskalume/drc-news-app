@@ -1,14 +1,13 @@
-import {Button, H3, Input, Label, Paragraph, View, YStack} from "tamagui";
-import ScreenView from "@/ui/components/screen/ScreenView";
+import {Button, Input, Label, Paragraph, YStack} from "tamagui";
+import ScreenView from "@/ui/components/layout/ScreenView";
 import {Link, useRouter} from "expo-router";
-import AppIcon from "@/ui/components/AppIcon";
 import Caption from "@/ui/components/typography/Caption";
 import React, {useMemo, useState} from "react";
 import {useRegister} from "@/api/request";
 import Toast from "react-native-toast-message";
 import {ActivityIndicator} from "react-native";
 import {safeMessage} from "@/api/api";
-import AppBackButton from "@/ui/components/controls/AppBackButton";
+import BackButton from "@/ui/components/controls/BackButton";
 import Heading from "@/ui/components/typography/Heading";
 
 export default function SingUp() {
@@ -54,7 +53,7 @@ export default function SingUp() {
 
     return (
         <ScreenView>
-            {router.canGoBack() && <AppBackButton onPress={() => router.back()} />}
+            {router.canGoBack() && <BackButton onPress={() => router.back()}/>}
             <YStack flex={1} gap="$4" width="100%" justifyContent="flex-start">
                 <YStack gap="$4">
                     <Heading>Inscription</Heading>

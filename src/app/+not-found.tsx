@@ -1,6 +1,6 @@
 import { Link, Stack } from 'expo-router';
 import {H5, Paragraph, View, YStack} from "tamagui";
-import ScreenView from "@/ui/components/screen/ScreenView";
+import ScreenView from "@/ui/components/layout/ScreenView";
 import AppIcon from "@/ui/components/AppIcon";
 
 export default function NotFoundScreen() {
