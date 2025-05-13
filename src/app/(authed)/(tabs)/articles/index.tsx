@@ -3,11 +3,11 @@ import {ActivityIndicator, FlatList, Pressable} from 'react-native'
 import {useRouter} from 'expo-router'
 import {Paragraph, YStack} from 'tamagui'
 
-import ScreenView from '@/components/ScreenView'
+import ScreenView from '@/ui/components/ScreenView'
 import {useInfiniteArticleOverviewList} from '@/api/request'
 import {ArticleOverview} from '@/api/types'
-import {ArticleOverviewCard, ArticleOverviewSkeleton} from '@/components/content/ArticleOverviewCard'
-import Heading from "@/components/typography/Heading";
+import {ArticleOverviewCard, ArticleOverviewSkeleton} from '@/ui/components/content/ArticleOverviewCard'
+import Heading from "@/ui/components/typography/Heading";
 
 const FooterListLoader = () => (
     <>
@@ -16,7 +16,7 @@ const FooterListLoader = () => (
     </>
 )
 
-const ItemSeparator = () => <YStack height="$1"/>
+const ItemSeparator = () => <YStack flex={1} width="100%" height="$1"/>
 
 const skeletons = new Array(3).fill(0);
 const SkeletonList = () => {
@@ -47,7 +47,7 @@ export default function Index() {
 
     const renderItem = useCallback(({ item }: { item: ArticleOverview }) => (
         <Pressable onPress={() => router.push(`/(authed)/(tabs)/articles/${item.id}`)}>
-            <ArticleOverviewCard data={item} />
+            <ArticleOverviewCard data={item} displayMode="magazine" />
         </Pressable>
     ), [router]);
 
@@ -61,7 +61,9 @@ export default function Index() {
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
                 ItemSeparatorComponent={ItemSeparator}
-                contentContainerStyle={{paddingBottom: 0}}
+                contentContainerStyle={{
+                    paddingBottom: 0
+                }}
                 onEndReached={handleOnEndReached}
                 onEndReachedThreshold={0.5}
                 refreshing={isLoading}

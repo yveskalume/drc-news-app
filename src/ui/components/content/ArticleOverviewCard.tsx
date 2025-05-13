@@ -1,11 +1,15 @@
-import React from "react"
+import React from "react";
 import {ArticleOverview} from "@/api/types";
 import {Card, Image, Paragraph, XStack, YStack} from "tamagui";
-import ContentLoader, {Rect} from "react-content-loader/native"
+import ContentLoader, {Rect} from "react-content-loader/native";
+import {useRelativeTime} from "@/hooks/useRelativeTime";
+
+type ArticleDisplayMode = 'card' | 'magazine' | 'text-only';
 
 type ArticleOverviewCardProps = {
-    data: ArticleOverview
-}
+    data: ArticleOverview;
+    displayMode?: ArticleDisplayMode;
+};
 
 export const ArticleOverviewSkeleton = (props: any) => {
     return (
@@ -18,21 +22,22 @@ export const ArticleOverviewSkeleton = (props: any) => {
             width="100%"
             {...props}
         >
-            <Rect x="0" y="0" rx="8" ry="8" width="100%" height="200" />
-            <Rect x="0" y="216" rx="4" ry="4" width="250" height="20" />
-            <Rect x="0" y="246" rx="4" ry="4" width="150" height="14" />
+            <Rect x="0" y="0" rx="8" ry="8" width="100%" height="200"/>
+            <Rect x="0" y="216" rx="4" ry="4" width="250" height="20"/>
+            <Rect x="0" y="246" rx="4" ry="4" width="150" height="14"/>
 
-            <Rect x="0" y="268" rx="4" ry="4" width="80%" height="12" />
-            <Rect x="0" y="284" rx="4" ry="4" width="90%" height="12" />
+            <Rect x="0" y="268" rx="4" ry="4" width="80%" height="12"/>
+            <Rect x="0" y="284" rx="4" ry="4" width="90%" height="12"/>
 
-            <Rect x="0" y="320" rx="4" ry="4" width="20%" height="12" />
-            <Rect x="284" y="320" rx="4" ry="4" width="20%" height="12" />
+            <Rect x="0" y="320" rx="4" ry="4" width="20%" height="12"/>
+            <Rect x="284" y="320" rx="4" ry="4" width="20%" height="12"/>
         </ContentLoader>
     );
 }
 
 export const ArticleOverviewCard = (props: ArticleOverviewCardProps) => {
     const {data} = props
+    const relativeTime = useRelativeTime(data.publishedAt);
 
     return (
         <Card elevate>
@@ -62,7 +67,7 @@ export const ArticleOverviewCard = (props: ArticleOverviewCardProps) => {
                             {data.source}
                         </Paragraph>
                         <Paragraph size="$2">
-                            {new Date(data.publishedAt).toDateString()}
+                            {relativeTime}
                         </Paragraph>
                     </XStack>
                 </YStack>

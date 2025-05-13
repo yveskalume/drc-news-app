@@ -1,9 +1,9 @@
 import {Button, H5, Image, Paragraph, ScrollView, XStack, YStack} from "tamagui";
-import ScreenView from "@/components/ScreenView";
+import ScreenView from "@/ui/components/ScreenView";
 import {ArrowLeft} from "@tamagui/lucide-icons";
 import {useLocalSearchParams, useRouter} from "expo-router";
 import {useArticleDetails} from "@/api/request";
-import AppLoadingView from "@/components/AppLoadingView";
+import AppLoadingView from "@/ui/components/AppLoadingView";
 import Toast from "react-native-toast-message";
 import * as WebBrowser from "expo-web-browser";
 import {safeMessage} from "@/api/api";

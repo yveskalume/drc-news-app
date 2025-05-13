@@ -1,8 +1,8 @@
 import {Button, H2, Paragraph, YStack} from "tamagui";
-import ScreenView from "@/components/ScreenView";
-import {useRouter} from "expo-router";
-import Caption from "@/components/typography/Caption";
-import AppIcon from "@/components/AppIcon";
+import ScreenView from "@/ui/components/ScreenView";
+import {Link, useRouter} from "expo-router";
+import Caption from "@/ui/components/typography/Caption";
+import AppIcon from "@/ui/components/AppIcon";
 
 export default function Welcome() {
     const router = useRouter();
@@ -21,13 +21,13 @@ export default function Welcome() {
                     </Paragraph>
                 </YStack>
 
-                <YStack gap="$2">
+                <YStack gap="$4">
                     <Button onPress={() => router.push("/signin")} theme="accent" fontWeight="bold">
                         Se connecter
                     </Button>
-                    <Button onPress={() => router.push("/signup")} theme="gray" fontWeight="bold">
-                        Ouvrir un compte
-                    </Button>
+                    <Link href="/signup" asChild>
+                        <Paragraph textAlign="center">Ouvrir un compte</Paragraph>
+                    </Link>
                 </YStack>
 
                 <Caption textAlign="center">

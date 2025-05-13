@@ -1,10 +1,10 @@
-import ScreenView from "@/components/ScreenView";
+import ScreenView from "@/ui/components/ScreenView";
 import {Card, H4, Paragraph, ScrollView, XStack, YStack} from "tamagui";
 import {SourceOverview} from "@/api/types";
 import {useSourcesStatisticsOverview} from "@/api/request";
 import {ChevronRight} from "@tamagui/lucide-icons";
-import Heading from "@/components/typography/Heading";
-import AppLoadingView from "@/components/AppLoadingView";
+import Heading from "@/ui/components/typography/Heading";
+import AppLoadingView from "@/ui/components/AppLoadingView";
 
 const SourceOverviewCard = ({data}: { data: SourceOverview }) => {
     return (

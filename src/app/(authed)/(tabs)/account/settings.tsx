@@ -1,9 +1,9 @@
 import {Button, YStack} from "tamagui";
-import ScreenView from "@/components/ScreenView";
+import ScreenView from "@/ui/components/ScreenView";
 import {useAuth} from "@/providers/AuthProvider";
 import {useLogout} from "@/api/request";
 import {ActivityIndicator} from "react-native";
-import Heading from "@/components/typography/Heading";
+import Heading from "@/ui/components/typography/Heading";
 
 export default function Settings() {
     const authState = useAuth();

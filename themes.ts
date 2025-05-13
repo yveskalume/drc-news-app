@@ -1,20 +1,36 @@
 import { createThemes, defaultComponentThemes } from '@tamagui/theme-builder'
 import * as Colors from '@tamagui/colors'
 
-const lightPalette = [
-    'hsla(209, 9.8%, 98%, 1)',
-    'hsla(209, 9.8%, 96%, 1)',
-    'hsla(209, 9.8%, 90%, 1)',
-    'hsla(209, 9.8%, 84%, 1)',
-    'hsla(209, 9.8%, 65%, 1)',
-    'hsla(209, 9.8%, 46%, 1)',
-    'hsla(209, 9.8%, 34%, 1)',
-    'hsla(209, 9.8%, 26%, 1)',
-    'hsla(209, 9.8%, 16%, 1)',
-    'hsla(209, 9.8%, 10%, 1)',
-    'hsla(209, 9.8%, 8%, 1)',
-    'hsla(209, 9.8%, 4%, 1)'
+const primaryPalette = [
+    'hsl(174, 66%, 97%)',
+    'hsl(174, 66%, 93%)',
+    'hsl(174, 66%, 87%)',
+    'hsl(174, 66%, 78%)',
+    'hsl(174, 66%, 68%)',
+    'hsl(174, 66%, 60%)',
+    'hsl(174, 66%, 53%)',
+    'hsl(174, 66%, 48%)',
+    'hsl(174, 66%, 40%)',
+    'hsl(174, 66%, 33%)',
+    'hsl(174, 66%, 21%)',
+    'hsl(174, 66%, 12%)',
 ]
+
+const lightPalette = [
+    'hsl(174, 6.6%, 98%)',
+    'hsl(174, 6.6%, 96%)',
+    'hsl(174, 6.6%, 90%)',
+    'hsl(174, 6.6%, 84%)',
+    'hsl(174, 6.6%, 65%)',
+    'hsl(174, 6.6%, 46%)',
+    'hsl(174, 6.6%, 34%)',
+    'hsl(174, 6.6%, 26%)',
+    'hsl(174, 6.6%, 16%)',
+    'hsl(174, 6.6%, 10%)',
+    'hsl(174, 6.6%, 8%)',
+    'hsl(174, 6.6%, 4%)',
+]
+
 const darkPalette = [...lightPalette].reverse();
 
 const lightShadows = {
@@ -64,51 +80,35 @@ const builtThemes = createThemes({
     },
     accent: {
         palette: {
-            dark: [
-                'hsla(209, 98%, 12%, 1)',
-                'hsla(209, 98%, 21%, 1)',
-                'hsla(209, 98%, 33%, 1)',
-                'hsla(209, 98%, 40%, 1)',
-                'hsla(209, 98%, 48%, 1)',
-                'hsla(209, 98%, 53%, 1)',
-                'hsla(209, 98%, 60%, 1)',
-                'hsla(209, 98%, 68%, 1)',
-                'hsla(209, 98%, 78%, 1)',
-                'hsla(209, 98%, 87%, 1)',
-                'hsla(209, 98%, 93%, 1)',
-                'hsla(209, 98%, 97%, 1)'
-            ],
-            light: [
-                'hsla(209, 98%, 12%, 1)',
-                'hsla(209, 98%, 21%, 1)',
-                'hsla(209, 98%, 33%, 1)',
-                'hsla(209, 98%, 40%, 1)',
-                'hsla(209, 98%, 48%, 1)',
-                'hsla(209, 98%, 53%, 1)',
-                'hsla(209, 98%, 60%, 1)',
-                'hsla(209, 98%, 68%, 1)',
-                'hsla(209, 98%, 78%, 1)',
-                'hsla(209, 98%, 87%, 1)',
-                'hsla(209, 98%, 93%, 1)',
-                'hsla(209, 98%, 97%, 1)'
-            ],
+            dark: [...primaryPalette].reverse(),
+            light: [...primaryPalette].reverse(),
         },
     },
     childrenThemes: {
+        primary: {
+            palette: {
+                dark: [...primaryPalette].reverse(),
+                light: [...primaryPalette].reverse(),
+            }
+        },
+        gray: {
+            palette: {
+                dark: darkPalette,
+                light: lightPalette
+            }
+        },
         warning: {
             palette: {
                 dark: Object.values(Colors.yellowDark),
                 light: Object.values(Colors.yellow),
             },
         },
-
         error: {
             palette: {
                 dark: Object.values(Colors.redDark),
                 light: Object.values(Colors.red),
             },
         },
-
         success: {
             palette: {
                 dark: Object.values(Colors.greenDark),

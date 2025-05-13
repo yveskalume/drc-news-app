@@ -11,9 +11,7 @@ export default function AppBackButton(props: AppBackButtonProps & ButtonProps) {
     return (
         <Button
             chromeless
-            position="absolute"
-            top="$4"
-            left="$4"
+            alignSelf="flex-start"
             size="$4"
             width="$4"
             height="$4"
