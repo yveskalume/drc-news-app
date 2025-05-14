@@ -18,7 +18,8 @@
         "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff",
         "package": "com.bernard-ng.congo-news"
-      }
+      },
+      "package": "com.bernardng.congonews"
     },
     "web": {
       "bundler": "metro",
