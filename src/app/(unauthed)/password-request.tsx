@@ -1,7 +1,7 @@
 import {Button, H3, Input, Paragraph, View, YStack} from "tamagui";
-import ScreenView from "@/components/ScreenView";
-import AppIcon from "@/components/AppIcon";
-import {useRouter} from "expo-router";
+import ScreenView from "@/ui/components/layout/ScreenView";
+import AppIcon from "@/ui/components/AppIcon";
+import {Link, useRouter} from "expo-router";
 import {useState} from "react";
 import {usePasswordForgotten} from "@/api/request";
 import {ActivityIndicator} from "react-native";
@@ -60,9 +60,9 @@ export default function PasswordRequest() {
                         fontWeight="bold">
                     {isPending ? <ActivityIndicator/> : "Réinitialiser le mot de passe"}
                 </Button>
-                <Button onPress={() => router.replace("/signin")} chromeless>
-                    Se connecter
-                </Button>
+                <Link href="/signin" asChild>
+                    <Paragraph textAlign="center">Se connecter</Paragraph>
+                </Link>
             </YStack>
         </ScreenView>
     )

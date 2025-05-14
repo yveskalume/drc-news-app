@@ -6,7 +6,7 @@ type AppLogoProps = {
 }
 
 export default function AppIcon(props: AppLogoProps) {
-    const { width = 80, height = 80 } = props
+    const {width = 80, height = 80} = props
 
     return (
         <Image

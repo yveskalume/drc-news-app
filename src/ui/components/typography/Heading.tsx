@@ -1,6 +1,6 @@
 import type React from "react";
 
-import {H3, ParagraphProps} from "tamagui";
+import {H4, ParagraphProps} from "tamagui";
 
 export default function Heading(props: React.PropsWithChildren<ParagraphProps>) {
     const {
@@ -9,8 +9,8 @@ export default function Heading(props: React.PropsWithChildren<ParagraphProps>) 
     } = props;
 
     return (
-        <H3 fontWeight="bold" alignSelf="flex-start" {...rest}>
+        <H4 fontWeight="bold" alignSelf="flex-start" {...rest}>
             {children}
-        </H3>
+        </H4>
     );
 }

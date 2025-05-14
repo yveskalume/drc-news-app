@@ -1,13 +1,14 @@
-import {Button, H3, Input, Paragraph, View, YStack} from "tamagui";
-import ScreenView from "@/components/ScreenView";
-import {useRouter} from "expo-router";
-import AppIcon from "@/components/AppIcon";
-import Caption from "@/components/typography/Caption";
-import {useMemo, useState} from "react";
+import {Button, Input, Label, Paragraph, YStack} from "tamagui";
+import ScreenView from "@/ui/components/layout/ScreenView";
+import {Link, useRouter} from "expo-router";
+import Caption from "@/ui/components/typography/Caption";
+import React, {useMemo, useState} from "react";
 import {useRegister} from "@/api/request";
 import Toast from "react-native-toast-message";
 import {ActivityIndicator} from "react-native";
 import {safeMessage} from "@/api/api";
+import BackButton from "@/ui/components/controls/BackButton";
+import Heading from "@/ui/components/typography/Heading";
 
 export default function SingUp() {
     const [name, setName] = useState("")
@@ -52,56 +53,66 @@ export default function SingUp() {
 
     return (
         <ScreenView>
-            <View flex={0.2} alignItems="center" justifyContent="center">
-                <AppIcon/>
-            </View>
-            <YStack flex={0.8} gap="$4" width="100%" justifyContent="flex-start">
-                <YStack marginBottom="$4">
-                    <H3 fontWeight="bold" textAlign="center" marginBottom="$3">Nous rejoindre</H3>
-                    <Paragraph textAlign="center" lineHeight="$1" marginTop="auto" paddingHorizontal="$4">
-                        Optez pour CongoNews, la plateforme d'actualités intelligente
+            {router.canGoBack() && <BackButton onPress={() => router.back()}/>}
+            <YStack flex={1} gap="$4" width="100%" justifyContent="flex-start">
+                <YStack gap="$4">
+                    <Heading>Inscription</Heading>
+                    <Paragraph>
+                        Rejoignez la communauté CongoNews et restez informé des dernières actualités
                     </Paragraph>
                 </YStack>
 
-                <Input
-                    onChangeText={setName}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    size="$large"
-                    placeholder="Nom d'utilisateur"
-                />
-                <Input
-                    onChangeText={setEmail}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                    size="$large"
-                    placeholder="Addresse e-mail"
-                />
-                <Input
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    size="$large"
-                    placeholder="Mot de passe"
-                />
+                <YStack gap="$2">
+                    <YStack>
+                        <Label>Nom</Label>
+                        <Input
+                            onChangeText={setName}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            size="$large"
+                            placeholder="Nom d'utilisateur"
+                        />
+                    </YStack>
 
-                <Button
-                    onPress={handleSubmit}
-                    disabled={!isFormValid || isPending}
-                    theme={!isFormValid || isPending ? "disabled" : "accent"}
-                    fontWeight="bold"
-                >
-                    {isPending ? <ActivityIndicator/> : "Créer un compte"}
-                </Button>
-                <Button onPress={() => router.replace("/signin")} chromeless>
-                    Se connecter
-                </Button>
+                    <YStack>
+                        <Label>Email</Label>
+                        <Input
+                            onChangeText={setEmail}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            keyboardType="email-address"
+                            size="$large"
+                            placeholder="Addresse e-mail"
+                        />
+                    </YStack>
+
+                    <YStack>
+                        <Label>Mot de passe</Label>
+                        <Input
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            size="$large"
+                            placeholder="Mot de passe"
+                        />
+                    </YStack>
+                </YStack>
+                <Caption>
+                    En continuant, vous acceptez les conditions d'utilisation de CongoNews et reconnaissez avoir lu
+                    notre politique de confidentialité.
+                </Caption>
+                <Link href="/signin">
+                    <Paragraph>Vous avez un compte ? Connectez-vous</Paragraph>
+                </Link>
             </YStack>
-
-            <Caption textAlign="center">
-                En continuant, vous acceptez les conditions d'utilisation de CongoNews et reconnaissez avoir lu
-                notre politique de confidentialité.
-            </Caption>
+            <Button
+                width="100%"
+                onPress={handleSubmit}
+                disabled={!isFormValid || isPending}
+                theme={!isFormValid || isPending ? "disabled" : "accent"}
+                fontWeight="bold"
+            >
+                {isPending ? <ActivityIndicator/> : "Créer un compte"}
+            </Button>
         </ScreenView>
     )
 }

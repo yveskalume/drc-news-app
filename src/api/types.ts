@@ -45,8 +45,9 @@ export type ArticleOverview = {
     categories: string[];
     excerpt: string;
     source: string;
-    publishedAt: string
-    image?: string
+    publishedAt: string;
+    image?: string;
+    readingTime: number;
 }
 
 export type Article = {
@@ -71,6 +72,7 @@ export type Article = {
         audio?: string;
         locale?: string;
     };
+    readingTime: number;
     publishedAt: string;
     crawledAt: string;
     updatedAt: string;
@@ -82,6 +84,7 @@ export type SourceOverview = {
     url: string;
     crawledAt: string;
     updatedAt?: string;
+    followed: boolean;
 }
 
 export type SourceStatisticsDetails = {

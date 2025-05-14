@@ -1,78 +1,64 @@
-import React, {useCallback} from 'react'
-import {ActivityIndicator, FlatList, Pressable} from 'react-native'
-import {useRouter} from 'expo-router'
-import {Paragraph, YStack} from 'tamagui'
+import React from 'react'
+import {ScrollView, YStack} from 'tamagui'
 
-import ScreenView from '@/components/ScreenView'
-import {useInfiniteArticleOverviewList} from '@/api/request'
-import {ArticleOverview} from '@/api/types'
-import {ArticleOverviewCard, ArticleOverviewSkeleton} from '@/components/content/ArticleOverviewCard'
-import Heading from "@/components/typography/Heading";
-
-const FooterListLoader = () => (
-    <>
-        <YStack height="$1"/>
-        <ActivityIndicator/>
-    </>
-)
-
-const ItemSeparator = () => <YStack height="$1"/>
-
-const skeletons = new Array(3).fill(0);
-const SkeletonList = () => {
-    return skeletons.map((_, index) => <ArticleOverviewSkeleton key={index}/>)
-}
+import ScreenView from '@/ui/components/layout/ScreenView'
+import {useArticleOverviewList, useSourcesStatisticsOverview} from '@/api/request'
+import {ArticleOverview, SourceOverview} from '@/api/types'
+import Heading from "@/ui/components/typography/Heading";
+import ArticleSkeletonList from "@/ui/components/content/article/ArticleSkeleton";
+import ArticleList from "@/ui/components/content/article/ArticleList";
+import SourceList from "@/ui/components/content/source/SourceList";
+import SourceSkeletonList from "@/ui/components/content/source/SourceSkeleton";
 
 export default function Index() {
-    const router = useRouter()
-
-    const {
-        data,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-        isLoading,
-        refetch,
-    } = useInfiniteArticleOverviewList({limit: 20})
-
-    const articleOverviews: ArticleOverview[] = data?.pages.flatMap(p => p.items) ?? []
-
-    const handleOnEndReached = useCallback(async () => {
-        if (hasNextPage && !isFetchingNextPage) {
-            await fetchNextPage();
-        }
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-    const keyExtractor = useCallback((item: ArticleOverview) => item.id, []);
-
-    const renderItem = useCallback(({ item }: { item: ArticleOverview }) => (
-        <Pressable onPress={() => router.push(`/(authed)/(tabs)/articles/${item.id}`)}>
-            <ArticleOverviewCard data={item} />
-        </Pressable>
-    ), [router]);
+    const {data: articles, isLoading: articlesLoading} = useArticleOverviewList({limit: 20})
+    const {data: sources, isLoading: sourcesLoading} = useSourcesStatisticsOverview()
+    const articleOverviews: ArticleOverview[] = articles?.items ?? []
+    const sourcesOverviews: SourceOverview[] = sources?.items ?? []
 
     return (
         <ScreenView paddingBottom={0}>
             <Heading>Actualités</Heading>
+            <ScrollView contentContainerStyle={{paddingBottom: 0}}>
+                <YStack gap="$4">
+                    <YStack gap="$2">
+                        <ScreenView.Section
+                            title="Tendances"
+                            forwardLink="/(authed)/(tabs)/articles/all-articles"
+                        />
 
-            {isLoading && <SkeletonList/>}
-            {!isLoading && <FlatList
-                data={articleOverviews}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                ItemSeparatorComponent={ItemSeparator}
-                contentContainerStyle={{paddingBottom: 0}}
-                onEndReached={handleOnEndReached}
-                onEndReachedThreshold={0.5}
-                refreshing={isLoading}
-                onRefresh={refetch}
-                ListFooterComponent={isFetchingNextPage ? <FooterListLoader/> : null}
-                ListEmptyComponent={() => (
-                    <Paragraph>Pas d’articles disponibles pour le moment.</Paragraph>
-                )}
-                initialNumToRender={5}
-                removeClippedSubviews
-            />}
+                        {articlesLoading && <ArticleSkeletonList
+                            displayMode='card'
+                            horizontal={true}
+                        />}
+                        {!articlesLoading && <ArticleList
+                            data={articleOverviews}
+                            refreshing={articlesLoading}
+                            displayMode='card'
+                            horizontal={true}
+                        />}
+                    </YStack>
+                    <YStack gap="$2">
+                        <ScreenView.Section
+                            title="Nos sources"
+                            forwardLink="/(authed)/(tabs)/sources/statistics"
+                        />
+
+                        {sourcesLoading && <SourceSkeletonList horizontal={true}/>}
+                        {!sourcesLoading && <SourceList
+                            data={sourcesOverviews}
+                            refreshing={sourcesLoading}
+                            horizontal={true}
+                        />}
+                    </YStack>
+                    <YStack gap="$2">
+                        <ScreenView.Section
+                            title="Dernières actualités"
+                            forwardLink="/(authed)/(tabs)/articles/all-articles"
+                        />
+                    </YStack>
+                </YStack>
+            </ScrollView>
         </ScreenView>
     )
 }
