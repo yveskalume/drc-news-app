@@ -2,7 +2,7 @@ import React from "react";
 import {Card, Image, Paragraph, XStack, YStack} from "tamagui";
 import {useRelativeTime} from "@/hooks/useRelativeTime";
 import Caption from "@/ui/components/typography/Caption";
-import ArticleSourcePill from "@/ui/components/content/ArticleSourcePill";
+import ArticleSourcePill from "@/ui/components/content/article/ArticleSourcePill";
 import {ArticleOverview} from "@/api/types";
 
 type ArticleOverviewCardProps = {

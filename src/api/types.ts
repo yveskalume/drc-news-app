@@ -84,6 +84,7 @@ export type SourceOverview = {
     url: string;
     crawledAt: string;
     updatedAt?: string;
+    followed: boolean;
 }
 
 export type SourceStatisticsDetails = {

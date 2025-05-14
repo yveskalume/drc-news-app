@@ -11,8 +11,8 @@ import BackButton from "@/ui/components/controls/BackButton";
 import IconButton from "@/ui/components/controls/IconButton";
 import {useRelativeTime} from "@/hooks/useRelativeTime";
 import Caption from "@/ui/components/typography/Caption";
-import ArticleSourcePill from "@/ui/components/content/ArticleSourcePill";
-import ArticleCategoryPill from "@/ui/components/content/ArticleCategoryPill";
+import ArticleSourcePill from "@/ui/components/content/article/ArticleSourcePill";
+import ArticleCategoryPill from "@/ui/components/content/article/ArticleCategoryPill";
 
 export default function ArticleDetails() {
     const router = useRouter();

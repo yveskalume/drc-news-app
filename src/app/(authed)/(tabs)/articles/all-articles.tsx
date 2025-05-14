@@ -5,8 +5,8 @@ import ScreenView from '@/ui/components/layout/ScreenView'
 import {useInfiniteArticleOverviewList} from '@/api/request'
 import {ArticleOverview} from '@/api/types'
 import BackButton from "@/ui/components/controls/BackButton";
-import ArticleOverviewSkeletonList from "@/ui/components/content/ArticleOverviewSkeleton";
-import ArticleOverviewList from "@/ui/components/content/ArticleOverviewList";
+import ArticleSkeletonList from "@/ui/components/content/article/ArticleSkeleton";
+import ArticleList from "@/ui/components/content/article/ArticleList";
 
 export default function AllArticles() {
     const router = useRouter()
@@ -33,8 +33,9 @@ export default function AllArticles() {
                 leadingAction={<BackButton onPress={() => router.dismissTo('/(authed)/(tabs)/articles')}/>}
                 title="Actualités"
             />
-            {isLoading && <ArticleOverviewSkeletonList/>}
-            {!isLoading && <ArticleOverviewList
+
+            {isLoading && <ArticleSkeletonList displayMode="magazine"/>}
+            {!isLoading && <ArticleList
                 data={articleOverviews}
                 onEndReached={handleOnEndReached}
                 refreshing={isLoading}

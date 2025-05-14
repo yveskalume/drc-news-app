@@ -13,9 +13,9 @@ export default function ArticleSourcePill(props: ArticleSourcePillProps) {
             <Avatar circular size="$1">
                 <Avatar.Image
                     accessibilityLabel={source}
-                    source={{uri: 'https://i0.wp.com/beto.cd/wp-content/uploads/2023/12/betofav2.png?fit=192%2C192&ssl=1'}}
+                    source={{uri: `https://devscast.org/images/source/${source}.png`, cache: 'force-cache'}}
                 />
-                <Avatar.Fallback backgroundColor="$accent6"/>
+                <Avatar.Fallback backgroundColor="$gray10"/>
             </Avatar>
             <Paragraph size="$2" fontWeight="bold">
                 {source}
