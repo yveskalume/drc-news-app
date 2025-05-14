@@ -4,7 +4,7 @@ import {Image, styled} from 'tamagui';
 
 const StyledImage = styled(Image, {
     borderRadius: '$12',
-    backgroundColor: '$gray10',
+    backgroundColor: 'white',
 });
 
 type SourceAvatarProps = GetProps<typeof StyledImage> & {
@@ -20,7 +20,8 @@ export default function SourceAvatar(props: SourceAvatarProps) {
 
     return (
         <StyledImage
-            source={{uri: `https://devscast.org/images/source/${source}.png`, cache: 'force-cache'}}
+            source={{uri: `https://devscast.org/images/sources/${source}.png`, cache: 'force-cache'}}
+            objectFit="contain"
             width={resolvedSize}
             height={resolvedSize}
             {...rest}

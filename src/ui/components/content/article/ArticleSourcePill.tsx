@@ -13,7 +13,9 @@ export default function ArticleSourcePill(props: ArticleSourcePillProps) {
             <Avatar circular size="$1">
                 <Avatar.Image
                     accessibilityLabel={source}
-                    source={{uri: `https://devscast.org/images/source/${source}.png`, cache: 'force-cache'}}
+                    objectFit="contain"
+                    backgroundColor="white"
+                    source={{uri: `https://devscast.org/images/sources/${source}.png`, cache: 'force-cache'}}
                 />
                 <Avatar.Fallback backgroundColor="$gray10"/>
             </Avatar>
