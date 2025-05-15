@@ -1,7 +1,9 @@
-import React from 'react';
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {styled, YStack} from "tamagui";
-import {StatusBar} from "expo-status-bar";
+import React from "react";
+
+import { StatusBar } from "expo-status-bar";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { styled, YStack } from "tamagui";
+
 import ScreenHeading from "@/ui/components/layout/ScreenHeading";
 import ScreenSection from "@/ui/components/layout/ScreenSection";
 
@@ -38,7 +40,7 @@ const ScreenView: ScreenViewComponent = (props: React.PropsWithChildren<ScreenVi
     const otherChildren: React.ReactNode[] = [];
 
     // Iterate through children to find the Heading and separate others
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, child => {
         if (React.isValidElement(child)) {
             if (child.type === ScreenView.Heading) {
                 headingElement = child;
@@ -52,12 +54,13 @@ const ScreenView: ScreenViewComponent = (props: React.PropsWithChildren<ScreenVi
 
     return (
         <>
-            {showStatusBar ? <StatusBar style={statusBarStyle} backgroundColor={statusBarBackgroundColor}/> : null}
+            {showStatusBar ? <StatusBar style={statusBarStyle} backgroundColor={statusBarBackgroundColor} /> : null}
 
             <YStack flex={1} paddingTop={insets.top} backgroundColor="$background">
                 {headingElement}
 
                 <ScreenContent
+                    flex={1}
                     paddingBottom={insets.bottom}
                     paddingHorizontal={padding ?? rest.paddingHorizontal ?? "$4"}
                     {...rest}

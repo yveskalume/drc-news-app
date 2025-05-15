@@ -1,5 +1,7 @@
 # Mobile Application
 
+![Coding Standard](https://github.com/bernard-ng/drc-news-app/actions/workflows/quality.yaml/badge.svg)
+
 | Scope             | Link                                                       |
 |-------------------|------------------------------------------------------------|
 | core and backend  | https://github.com/bernard-ng/drc-news-corpus              |

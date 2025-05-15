@@ -1,12 +1,13 @@
-import {Avatar, Paragraph, XStack, XStackProps} from "tamagui";
 import React from "react";
 
-type ArticleSourcePillProps = XStackProps & {
+import { Avatar, GetProps, Paragraph, XStack } from "tamagui";
+
+type ArticleSourcePillProps = GetProps<typeof XStack> & {
     source: string;
-}
+};
 
 export default function ArticleSourcePill(props: ArticleSourcePillProps) {
-    const {source, ...rest} = props;
+    const { source, ...rest } = props;
 
     return (
         <XStack alignItems="center" gap="$2" justifyContent="flex-start" {...rest}>
@@ -15,9 +16,9 @@ export default function ArticleSourcePill(props: ArticleSourcePillProps) {
                     accessibilityLabel={source}
                     objectFit="contain"
                     backgroundColor="white"
-                    source={{uri: `https://devscast.org/images/sources/${source}.png`, cache: 'force-cache'}}
+                    source={{ uri: `https://devscast.org/images/sources/${source}.png`, cache: "force-cache" }}
                 />
-                <Avatar.Fallback backgroundColor="$gray10"/>
+                <Avatar.Fallback backgroundColor="$gray10" />
             </Avatar>
             <Paragraph size="$2" fontWeight="bold">
                 {source}

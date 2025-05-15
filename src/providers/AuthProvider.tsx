@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+
 import { useRouter, SplashScreen } from "expo-router";
-import {clearTokens, setTokens, getAccessToken, getRefreshToken} from "@/api/auth";
+
+import { clearTokens, setTokens, getAccessToken, getRefreshToken } from "@/store/auth";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,23 +40,20 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
         setAccessToken(access);
         setRefreshToken(refresh);
         setTokens(access, refresh);
-        router.replace('/(authed)/(tabs)/articles');
+        router.replace("/(authed)/(tabs)/articles");
     };
 
     const logout = () => {
         setAccessToken(null);
         setRefreshToken(null);
         clearTokens();
-        router.replace('/signin');
+        router.replace("/signin");
     };
 
     useEffect(() => {
         const loadTokens = async () => {
             try {
-                const [storedAccess, storedRefresh] = await Promise.all([
-                    getAccessToken(),
-                    getRefreshToken(),
-                ]);
+                const [storedAccess, storedRefresh] = await Promise.all([getAccessToken(), getRefreshToken()]);
 
                 if (storedAccess && storedRefresh) {
                     setAccessToken(storedAccess);

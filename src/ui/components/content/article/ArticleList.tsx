@@ -1,75 +1,73 @@
-import {Paragraph, XStack, YStack} from "tamagui";
-import React, {useCallback} from "react";
-import {ArticleOverview} from "@/api/types";
-import {ActivityIndicator, Dimensions, FlatList, FlatListProps} from "react-native";
-import {ArticleOverviewCard} from "@/ui/components/content/article/ArticleOverviewCard";
-import {Link} from "expo-router";
-import {ArticleMagazineCard} from "@/ui/components/content/article/ArticleMagazineCard";
-import {ArticleTextOnlyCard} from "@/ui/components/content/article/ArticleTextOnlyCard";
+import React, { useCallback } from "react";
 
-const {width: screenWidth} = Dimensions.get('window');
+import { Link } from "expo-router";
+import { ActivityIndicator, Dimensions, FlatList, FlatListProps } from "react-native";
+import { Paragraph, XStack, YStack } from "tamagui";
 
-const HorizontalSeparator = () => <XStack width="$1"/>
-const VerticalSeparator = () => <YStack height="$1"/>
+import { ArticleOverview } from "@/api/aggregator/article";
+import { ArticleMagazineCard } from "@/ui/components/content/article/ArticleMagazineCard";
+import { ArticleOverviewCard } from "@/ui/components/content/article/ArticleOverviewCard";
+import { ArticleTextOnlyCard } from "@/ui/components/content/article/ArticleTextOnlyCard";
+
+const { width: screenWidth } = Dimensions.get("window");
+
+const HorizontalSeparator = () => <XStack width="$1" />;
+const VerticalSeparator = () => <YStack height="$1" />;
 
 const LoadingIndicator = () => (
     <>
-        <YStack height="$1"/>
-        <ActivityIndicator/>
-        <YStack height="$1"/>
+        <YStack height="$1" />
+        <ActivityIndicator />
+        <YStack height="$1" />
     </>
-)
+);
 
-export type ArticleListDisplayMode = 'card' | 'magazine' | 'text-only'
+export type ArticleListDisplayMode = "card" | "magazine" | "text-only";
 
-type ArticleListProps = Omit<FlatListProps<ArticleOverview>, 'renderItem'> & {
-    data: ArticleOverview[]
-    horizontal?: boolean,
-    infiniteScroll?: boolean,
-    displayMode?: ArticleListDisplayMode
-}
+type ArticleListProps = Omit<FlatListProps<ArticleOverview>, "renderItem"> & {
+    data: ArticleOverview[];
+    horizontal?: boolean;
+    infiniteScroll?: boolean;
+    displayMode?: ArticleListDisplayMode;
+};
 
 type ArticleListComponent = React.FC<ArticleListProps> & {
-    HorizontalSeparator: typeof HorizontalSeparator
-    VerticalSeparator: typeof VerticalSeparator
-    LoadingIndicator: typeof LoadingIndicator
-}
+    HorizontalSeparator: typeof HorizontalSeparator;
+    VerticalSeparator: typeof VerticalSeparator;
+    LoadingIndicator: typeof LoadingIndicator;
+};
 
 const keyExtractor = (item: ArticleOverview) => item.id;
 
 const selectDisplayComponent = (mode: ArticleListDisplayMode) => {
     switch (mode) {
-        case 'card':
+        case "card":
             return ArticleOverviewCard;
-        case 'magazine':
+        case "magazine":
             return ArticleMagazineCard;
-        case 'text-only':
+        case "text-only":
             return ArticleTextOnlyCard;
         default:
             throw new Error(`Unknown display mode: ${mode}`);
     }
-}
+};
 
 const ArticleList: ArticleListComponent = (props: ArticleListProps) => {
-    const {
-        data,
-        displayMode = 'magazine',
-        horizontal = false,
-        infiniteScroll = false,
-        ...rest
-    } = props;
+    const { data, displayMode = "magazine", horizontal = false, infiniteScroll = false, ...rest } = props;
 
-    const renderItem = useCallback(({item}: { item: ArticleOverview }) => {
-        const itemWidth = horizontal ? screenWidth * 0.7 : undefined;
-        const DisplayComponent = selectDisplayComponent(displayMode);
+    const renderItem = useCallback(
+        ({ item }: { item: ArticleOverview }) => {
+            const itemWidth = horizontal ? screenWidth * 0.7 : undefined;
+            const DisplayComponent = selectDisplayComponent(displayMode);
 
-        return (
-            <Link href={`/(authed)/(tabs)/articles/${item.id}`} style={{width: itemWidth}}>
-                <DisplayComponent data={item}/>
-            </Link>
-        )
-    }, [horizontal, displayMode]);
-
+            return (
+                <Link href={`/(authed)/(tabs)/articles/${item.id}`} style={{ width: itemWidth }}>
+                    <DisplayComponent data={item} />
+                </Link>
+            );
+        },
+        [horizontal, displayMode]
+    );
 
     return (
         <FlatList
@@ -84,15 +82,13 @@ const ArticleList: ArticleListComponent = (props: ArticleListProps) => {
             onEndReachedThreshold={0.5}
             removeClippedSubviews={true}
             ListFooterComponent={infiniteScroll ? LoadingIndicator : undefined}
-            ListEmptyComponent={() => (
-                <Paragraph>Pas d’articles disponibles pour le moment.</Paragraph>
-            )}
+            ListEmptyComponent={() => <Paragraph>Pas d’articles disponibles pour le moment.</Paragraph>}
         />
     );
-}
+};
 
-ArticleList.HorizontalSeparator = HorizontalSeparator
-ArticleList.VerticalSeparator = VerticalSeparator
-ArticleList.LoadingIndicator = LoadingIndicator
+ArticleList.HorizontalSeparator = HorizontalSeparator;
+ArticleList.VerticalSeparator = VerticalSeparator;
+ArticleList.LoadingIndicator = LoadingIndicator;
 
-export default ArticleList
+export default ArticleList;

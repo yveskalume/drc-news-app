@@ -1,20 +1,12 @@
 import type React from "react";
 
-import {Paragraph, ParagraphProps} from "tamagui";
+import { Paragraph, ParagraphProps } from "tamagui";
 
 export default function Caption(props: React.PropsWithChildren<ParagraphProps>) {
-    const {
-        children,
-        ...rest
-    } = props;
+    const { children, ...rest } = props;
 
     return (
-        <Paragraph
-            fontSize="$2"
-            lineHeight="$1"
-            color="$gray10"
-            {...rest}
-        >
+        <Paragraph fontSize="$2" lineHeight="$1" color="$gray10" {...rest}>
             {children}
         </Paragraph>
     );
