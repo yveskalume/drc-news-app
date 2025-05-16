@@ -1,26 +1,26 @@
-import {Button, Input, Label, Paragraph, YStack} from "tamagui";
-import ScreenView from "@/ui/components/layout/ScreenView";
-import {Link, useRouter} from "expo-router";
-import Caption from "@/ui/components/typography/Caption";
-import React, {useMemo, useState} from "react";
-import {useRegister} from "@/api/request";
+import React, { useMemo, useState } from "react";
+
+import { Link, useRouter } from "expo-router";
+import { ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
-import {ActivityIndicator} from "react-native";
-import {safeMessage} from "@/api/api";
+import { Button, Input, Label, Paragraph, YStack } from "tamagui";
+
+import { ErrorResponse, safeMessage } from "@/api/client";
+import { useRegister } from "@/api/identity-and-access/register";
 import BackButton from "@/ui/components/controls/BackButton";
+import ScreenView from "@/ui/components/layout/ScreenView";
+import Caption from "@/ui/components/typography/Caption";
 import Heading from "@/ui/components/typography/Heading";
 
 export default function SingUp() {
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const router = useRouter()
-    const {mutate: registerRequest, isPending, error} = useRegister()
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const router = useRouter();
+    const { mutate: registerRequest, isPending, error } = useRegister();
 
     const isFormValid = useMemo(() => {
-        return email.trim().length > 0
-            && password.trim().length > 0
-            && name.trim().length > 0
+        return email.trim().length > 0 && password.trim().length > 0 && name.trim().length > 0;
     }, [email, password, name]);
 
     if (error) {
@@ -28,38 +28,39 @@ export default function SingUp() {
             text1: "Erreur",
             text2: safeMessage(error),
             type: "error",
-        })
+        });
     }
 
     const handleSubmit = () => {
-        registerRequest({name, email, password}, {
-            onSuccess: () => {
-                Toast.show({
-                    text1: "Félicitations !",
-                    text2: "les détails de votre compte vous ont été envoyés par e-mail.",
-                    type: "success",
-                })
-                router.replace("/(unauthed)/signin")
-            },
-            onError: (error) => {
-                Toast.show({
-                    text1: "Erreur",
-                    text2: safeMessage(error),
-                    type: "error",
-                })
+        registerRequest(
+            { name, email, password },
+            {
+                onSuccess: () => {
+                    Toast.show({
+                        text1: "Félicitations !",
+                        text2: "les détails de votre compte vous ont été envoyés par e-mail.",
+                        type: "success",
+                    });
+                    router.replace("/(unauthed)/signin");
+                },
+                onError: (error: ErrorResponse) => {
+                    Toast.show({
+                        text1: "Erreur",
+                        text2: safeMessage(error),
+                        type: "error",
+                    });
+                },
             }
-        })
-    }
+        );
+    };
 
     return (
         <ScreenView>
-            {router.canGoBack() && <BackButton onPress={() => router.back()}/>}
+            {router.canGoBack() && <BackButton onPress={() => router.back()} />}
             <YStack flex={1} gap="$4" width="100%" justifyContent="flex-start">
                 <YStack gap="$4">
                     <Heading>Inscription</Heading>
-                    <Paragraph>
-                        Rejoignez la communauté CongoNews et restez informé des dernières actualités
-                    </Paragraph>
+                    <Paragraph>Rejoignez la communauté CongoNews et restez informé des dernières actualités</Paragraph>
                 </YStack>
 
                 <YStack gap="$2">
@@ -88,16 +89,11 @@ export default function SingUp() {
 
                     <YStack>
                         <Label>Mot de passe</Label>
-                        <Input
-                            onChangeText={setPassword}
-                            secureTextEntry
-                            size="$large"
-                            placeholder="Mot de passe"
-                        />
+                        <Input onChangeText={setPassword} secureTextEntry size="$large" placeholder="Mot de passe" />
                     </YStack>
                 </YStack>
                 <Caption>
-                    En continuant, vous acceptez les conditions d'utilisation de CongoNews et reconnaissez avoir lu
+                    En continuant, vous acceptez les conditions d&#39;utilisation de CongoNews et reconnaissez avoir lu
                     notre politique de confidentialité.
                 </Caption>
                 <Link href="/signin">
@@ -111,8 +107,8 @@ export default function SingUp() {
                 theme={!isFormValid || isPending ? "disabled" : "accent"}
                 fontWeight="bold"
             >
-                {isPending ? <ActivityIndicator/> : "Créer un compte"}
+                {isPending ? <ActivityIndicator /> : "Créer un compte"}
             </Button>
         </ScreenView>
-    )
+    );
 }

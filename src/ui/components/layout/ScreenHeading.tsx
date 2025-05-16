@@ -1,10 +1,11 @@
-import React from 'react';
-import {Paragraph, styled, View, XStack} from 'tamagui';
+import React from "react";
+
+import { Paragraph, styled, View, XStack } from "tamagui";
 
 const ActionContainer = styled(XStack, {
-    alignItems: 'center',
-    minWidth: '$5',
-    gap: "$1"
+    alignItems: "center",
+    minWidth: "$5",
+    gap: "$1",
 });
 
 interface ScreenHeadingProps {
@@ -16,14 +17,12 @@ interface ScreenHeadingProps {
 }
 
 export default function ScreenHeading(props: ScreenHeadingProps) {
-    const {
-        leadingAction,
-        title,
-        trailingActions,
-        paddingHorizontal = "$4",
-        marginBottom = "$2",
-    } = props;
-    const trailingActionsArray = Array.isArray(trailingActions) ? trailingActions : (trailingActions ? [trailingActions] : []);
+    const { leadingAction, title, trailingActions, paddingHorizontal = "$4", marginBottom = "$2" } = props;
+    const trailingActionsArray = Array.isArray(trailingActions)
+        ? trailingActions
+        : trailingActions
+          ? [trailingActions]
+          : [];
 
     return (
         <XStack
@@ -34,21 +33,19 @@ export default function ScreenHeading(props: ScreenHeadingProps) {
             paddingHorizontal={paddingHorizontal}
             marginBottom={marginBottom}
         >
-            <ActionContainer>
-                {leadingAction}
-            </ActionContainer>
+            <ActionContainer>{leadingAction}</ActionContainer>
             <XStack flex={1} justifyContent="center">
                 {title ? (
                     <Paragraph fontWeight="600" fontSize="$6">
                         {title}
                     </Paragraph>
-                ) : <View/>}
+                ) : (
+                    <View />
+                )}
             </XStack>
             <ActionContainer>
                 {trailingActionsArray.map((action, index) => (
-                    <React.Fragment key={index}>
-                        {action}
-                    </React.Fragment>
+                    <React.Fragment key={index}>{action}</React.Fragment>
                 ))}
             </ActionContainer>
         </XStack>

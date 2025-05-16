@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import * as Network from 'expo-network';
-import {NetworkStateEvent} from "expo-network";
+import React, { createContext, useContext, useEffect, useState } from "react";
+
+import * as Network from "expo-network";
+import { NetworkStateEvent } from "expo-network";
 
 type NetworkState = {
     isConnected: boolean;
-}
+};
 
 const NetworkContext = createContext<NetworkState>({
     isConnected: true,
@@ -16,7 +17,7 @@ export const NetworkProvider = ({ children }: React.PropsWithChildren) => {
     const [isConnected, setIsConnected] = useState(true);
 
     useEffect(() => {
-        let subscription: { remove: () => any; };
+        let subscription: { remove: () => any };
 
         const subscribeToNetworkChanges = async () => {
             const state = await Network.getNetworkStateAsync();
@@ -37,9 +38,5 @@ export const NetworkProvider = ({ children }: React.PropsWithChildren) => {
         };
     }, []);
 
-    return (
-        <NetworkContext.Provider value={{ isConnected }}>
-            {children}
-        </NetworkContext.Provider>
-    );
+    return <NetworkContext.Provider value={{ isConnected }}>{children}</NetworkContext.Provider>;
 };

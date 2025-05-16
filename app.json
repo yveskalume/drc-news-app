@@ -19,7 +19,7 @@
         "backgroundColor": "#ffffff",
         "package": "com.bernard-ng.congo-news"
       },
-      "package": "com.bernardng.congonews"
+      "package": "com.bernard-ng.congo-news"
     },
     "web": {
       "bundler": "metro",

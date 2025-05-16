@@ -1,23 +1,24 @@
-import {useEffect, useState} from 'react';
-import {formatDistanceToNowStrict, Locale} from 'date-fns';
-import {fr} from 'date-fns/locale';
+import { useEffect, useState } from "react";
+
+import { formatDistanceToNowStrict, Locale } from "date-fns";
+import { fr } from "date-fns/locale";
 
 export const useRelativeTime = (
     dateInput: string | Date | number | null | undefined,
     options?: {
         addSuffix?: boolean;
-        unit?: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
+        unit?: "second" | "minute" | "hour" | "day" | "month" | "year";
         locale?: Locale;
-        roundingMethod?: 'floor' | 'ceil' | 'round';
+        roundingMethod?: "floor" | "ceil" | "round";
         includeSeconds?: boolean;
     },
     updateInterval: number = 60000
 ): string => {
-    const [relativeTime, setRelativeTime] = useState('');
+    const [relativeTime, setRelativeTime] = useState("");
 
     useEffect(() => {
         if (dateInput === null || dateInput === undefined) {
-            setRelativeTime('');
+            setRelativeTime("");
             return;
         }
 
@@ -25,7 +26,7 @@ export const useRelativeTime = (
 
         // Check if the date is valid
         if (isNaN(date.getTime())) {
-            setRelativeTime('Invalid Date');
+            setRelativeTime("Invalid Date");
             return;
         }
 
@@ -34,7 +35,7 @@ export const useRelativeTime = (
             const effectiveOptions = {
                 locale: fr,
                 addSuffix: true,
-                ...options
+                ...options,
             };
 
             try {
@@ -54,7 +55,6 @@ export const useRelativeTime = (
 
         // Clean up the interval when the component unmounts or dateInput changes
         return () => clearInterval(intervalId);
-
     }, [dateInput, options, updateInterval]);
 
     return relativeTime;

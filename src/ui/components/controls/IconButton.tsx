@@ -1,11 +1,11 @@
-import {Button, ButtonProps} from "tamagui";
+import { Button, ButtonProps } from "tamagui";
 
 type IconButtonProps = {
     onPress: () => void;
-}
+};
 
 export default function IconButton(props: IconButtonProps & ButtonProps) {
-    const {onPress, ...rest} = props;
+    const { onPress, ...rest } = props;
 
     return (
         <Button

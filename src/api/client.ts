@@ -1,31 +1,46 @@
-import axios, {AxiosError, AxiosInstance} from 'axios';
-import {ClientDetailErrorResponse, ClientErrorResponse, RefreshToken, RefreshTokenResponse} from "@/api/types";
-import {clearTokens, setTokens, getAccessToken, getRefreshToken} from "@/api/auth";
+import axios, { AxiosError, AxiosInstance } from "axios";
+
+import { RefreshTokenData, RefreshTokenResponse } from "@/api/identity-and-access/login";
+import { clearTokens, getAccessToken, getRefreshToken, setTokens } from "@/store/auth";
+
+export type ClientDetailErrorResponse = {
+    type: string;
+    title: string;
+    detail: string;
+    status: number;
+};
+
+export type ClientErrorResponse = {
+    code: string;
+    message: string;
+};
+
+export type ErrorResponse = AxiosError<ClientErrorResponse | ClientDetailErrorResponse>;
 
 const endpoint = process.env.EXPO_PUBLIC_API_URL!;
-const api: AxiosInstance = axios.create({
+const client: AxiosInstance = axios.create({
     baseURL: endpoint,
     headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
     },
 });
 
-export const safeMessage = (error: AxiosError<ClientErrorResponse|ClientDetailErrorResponse>|Error): string => {
+export const safeMessage = (error: AxiosError<ClientErrorResponse | ClientDetailErrorResponse> | Error): string => {
     if (error instanceof AxiosError && error.response) {
         const response = error.response.data;
         console.log(JSON.stringify(response));
 
-        if ('message' in response) {
-            return response.message
-        } else if ('detail' in response) {
-            return response.detail
+        if ("message" in response) {
+            return response.message;
+        } else if ("detail" in response) {
+            return response.detail;
         }
     }
 
     console.log(JSON.stringify(error));
-    return "Une erreur est survenue"
-}
+    return "Une erreur est survenue";
+};
 
 let isAuthTokenRefreshing = false;
 let failedRequestsQueue: ((token: string) => void)[] = [];
@@ -33,20 +48,20 @@ let failedRequestsQueue: ((token: string) => void)[] = [];
 const processFailedRequestsQueue = (token: string) => {
     failedRequestsQueue.forEach(callback => callback(token));
     failedRequestsQueue = [];
-}
+};
 
 // Add the Authorization header to all requests
-api.interceptors.request.use(async config => {
+client.interceptors.request.use(async config => {
     const token = await getAccessToken();
     if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token}`;
     }
 
     return config;
 });
 
 // Handle 401 errors and refresh the token
-api.interceptors.response.use(
+client.interceptors.response.use(
     response => response,
     async error => {
         const originalRequest = error.config;
@@ -56,12 +71,12 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             if (isAuthTokenRefreshing) {
-                return new Promise((resolve) => {
+                return new Promise(resolve => {
                     failedRequestsQueue.push((token: string) => {
-                        originalRequest.headers['Authorization'] = `Bearer ${token}`;
-                        resolve(api(originalRequest));
+                        originalRequest.headers["Authorization"] = `Bearer ${token}`;
+                        resolve(client(originalRequest));
                     });
-                })
+                });
             }
 
             isAuthTokenRefreshing = true;
@@ -70,19 +85,19 @@ api.interceptors.response.use(
                 const refreshToken = await getRefreshToken();
                 if (!refreshToken) {
                     await clearTokens();
-                    return Promise.reject(error)
+                    return Promise.reject(error);
                 }
 
                 const response = await axios.post<RefreshTokenResponse>(`${endpoint}/token/refresh`, {
-                    "refresh_token": refreshToken
-                } as RefreshToken);
+                    refresh_token: refreshToken,
+                } as RefreshTokenData);
 
                 const updatedToken = response.data.token;
                 await setTokens(updatedToken, refreshToken);
-                processFailedRequestsQueue(updatedToken)
+                processFailedRequestsQueue(updatedToken);
 
-                originalRequest.headers['Authorization'] = `Bearer ${updatedToken}`;
-                return api(originalRequest);
+                originalRequest.headers["Authorization"] = `Bearer ${updatedToken}`;
+                return client(originalRequest);
             } catch (error) {
                 await clearTokens();
                 return Promise.reject(error);
@@ -95,4 +110,4 @@ api.interceptors.response.use(
     }
 );
 
-export default api;
+export default client;

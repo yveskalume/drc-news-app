@@ -1,14 +1,15 @@
-import type React from 'react';
-import type {GetProps} from 'tamagui';
-import {Paragraph, styled, XStack, YStack} from 'tamagui';
-import SourceAvatar from "@/ui/components/content/source/SourceAvatar";
+import type React from "react";
+
+import { GetProps, Paragraph, styled, XStack, YStack } from "tamagui";
+
+import { SourceOverview } from "@/api/aggregator/source";
 import FollowToggleButton from "@/ui/components/content/source/FollowToggleButton";
-import {SourceOverview} from "@/api/types";
+import SourceAvatar from "@/ui/components/content/source/SourceAvatar";
 
 const SourceCardFrame = styled(YStack, {
-    alignItems: 'center',
-    gap: '$2',
-    borderRadius: '$4',
+    alignItems: "center",
+    gap: "$2",
+    borderRadius: "$4",
 
     variants: {
         horizontal: {
@@ -17,14 +18,14 @@ const SourceCardFrame = styled(YStack, {
                 flexShrink: 0,
             },
             false: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: '$4',
-                paddingVertical: '$2',
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+                gap: "$4",
+                paddingVertical: "$2",
             },
         },
-    }
+    },
 } as const);
 
 type SourceCardProps = GetProps<typeof SourceCardFrame> & {
@@ -33,13 +34,13 @@ type SourceCardProps = GetProps<typeof SourceCardFrame> & {
 };
 
 export function SourceOverviewCard(props: SourceCardProps) {
-    const {data, horizontal = true, ...rest} = props;
+    const { data, horizontal = true, ...rest } = props;
 
-    const nameFontSize = horizontal ? '$3' : '$4';
+    const nameFontSize = horizontal ? "$3" : "$4";
 
     return (
         <SourceCardFrame horizontal={horizontal} {...rest}>
-            <SourceAvatar source={data.source} size={horizontal ? 65 : 50}/>
+            <SourceAvatar source={data.source} size={horizontal ? 65 : 50} />
 
             {horizontal ? (
                 <Paragraph
@@ -54,11 +55,7 @@ export function SourceOverviewCard(props: SourceCardProps) {
             ) : (
                 <YStack flex={1} gap="$1">
                     <XStack alignItems="center" gap="$1">
-                        <Paragraph
-                            fontSize={nameFontSize}
-                            fontWeight="bold"
-                            numberOfLines={1}
-                        >
+                        <Paragraph fontSize={nameFontSize} fontWeight="bold" numberOfLines={1}>
                             {data.source}
                         </Paragraph>
                     </XStack>
@@ -69,7 +66,7 @@ export function SourceOverviewCard(props: SourceCardProps) {
                 </YStack>
             )}
 
-            <FollowToggleButton source={data.source} followed={data.followed}/>
+            <FollowToggleButton source={data.source} followed={data.followed} />
         </SourceCardFrame>
     );
 }

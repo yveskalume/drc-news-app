@@ -1,16 +1,18 @@
 import React from "react";
-import {Card, Paragraph, XStack, YStack} from "tamagui";
-import {useRelativeTime} from "@/hooks/useRelativeTime";
-import Caption from "@/ui/components/typography/Caption";
+
+import { Card, Paragraph, XStack, YStack } from "tamagui";
+
+import { ArticleOverview } from "@/api/aggregator/article";
+import { useRelativeTime } from "@/hooks/useRelativeTime";
 import ArticleSourcePill from "@/ui/components/content/article/ArticleSourcePill";
-import type {ArticleOverview} from "@/api/types";
+import Caption from "@/ui/components/typography/Caption";
 
 type ArticleTextOnlyCardProps = {
     data: ArticleOverview;
 };
 
 export function ArticleTextOnlyCard(props: ArticleTextOnlyCardProps) {
-    const {data} = props;
+    const { data } = props;
     const relativeTime = useRelativeTime(data.publishedAt);
 
     return (
@@ -28,7 +30,7 @@ export function ArticleTextOnlyCard(props: ArticleTextOnlyCardProps) {
 
             <YStack marginTop="$3">
                 <XStack justifyContent="space-between" alignItems="center">
-                    <ArticleSourcePill source={data.source}/>
+                    <ArticleSourcePill source={data.source} />
                     <Caption>{relativeTime}</Caption>
                 </XStack>
             </YStack>
